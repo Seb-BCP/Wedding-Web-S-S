@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sarah & Sebastian Ortiz — 4 March 2027</title>
+  <meta name="description" content="Wedding website for Sarah and Sebastian Ortiz — Thursday 4 March 2027." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --paper:#f3efe8;
+      --card:#faf8f5;
+      --ink:#141414;
+      --muted:#6d6a65;
+      --line:#d8d1c6;
+      --shadow:0 18px 55px rgba(0,0,0,.06);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--paper);
+      color:var(--ink);
+      font-family:"Libre Baskerville", serif;
+      line-height:1.65;
+    }
+    img{display:block;max-width:100%}
+    a{color:inherit}
+    button,input,select,textarea{font:inherit}
+    .wrap{width:min(1240px, calc(100% - 36px)); margin:auto}
+
+    .nav{
+      position:fixed;
+      top:0; left:0; right:0;
+      z-index:1000;
+      background:rgba(243,239,232,.84);
+      backdrop-filter:blur(8px);
+      border-bottom:1px solid rgba(20,20,20,.08);
+    }
+    .nav-inner{
+      min-height:74px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+    }
+    .brand{
+      text-decoration:none;
+      font-family:"Cormorant Garamond", serif;
+      font-size:1.36rem;
+      letter-spacing:.02em;
+    }
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+    .nav-links a{
+      text-decoration:none;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-size:.72rem;
+      color:var(--muted);
+    }
+    .nav-links .pill{
+      border:1px solid var(--ink);
+      border-radius:999px;
+      padding:10px 14px;
+      color:var(--ink);
+      background:rgba(255,255,255,.55);
+    }
+
+    h1,h2,h3,h4{
+      font-family:"Cormorant Garamond", serif;
+      font-weight:500;
+      line-height:1;
+      margin:0;
+    }
+    h1{font-size:clamp(3.3rem,7vw,6.4rem)}
+    h2{font-size:clamp(2.7rem,5.5vw,5.1rem)}
+    h3{font-size:clamp(2rem,3.5vw,3rem)}
+    h4{font-size:clamp(1.8rem,3vw,2.6rem)}
+    p{margin:0 0 1rem}
+    .section-title{
+      text-align:center;
+      max-width:1100px;
+      margin:0 auto;
+    }
+
+    .hero{
+      position:relative;
+      min-height:100svh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:white;
+      overflow:hidden;
+      padding-top:74px;
+    }
+    .hero-media{
+      position:absolute;
+      inset:0;
+      z-index:0;
+    }
+    .hero-media img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:center 72%;
+      transform:scale(1.02);
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(15,15,15,.18), rgba(15,15,15,.38));
+      z-index:1;
+    }
+    .hero-content{
+      position:relative;
+      z-index:2;
+      text-align:center;
+      padding:50px 20px;
+      max-width:980px;
+    }
+    .hero h1{
+      font-family:"Cormorant Garamond", serif;
+      font-size:clamp(1.7rem,2.6vw,2.35rem);
+      line-height:1.1;
+      font-weight:500;
+      margin-bottom:10px;
+    }
+    .hero-date{
+      font-family:"Cormorant Garamond", serif;
+      font-size:clamp(1.7rem,2.6vw,2.35rem);
+      line-height:1.1;
+      margin-bottom:14px;
+    }
+    .hero-marriage{
+      font-family:"Cormorant Garamond", serif;
+      font-size:clamp(3rem,6vw,5.8rem);
+      line-height:0.96;
+      font-weight:500;
+    }
+    .hero-marriage span{
+      display:block;
+    }
+
+    section{
+      padding:90px 0;
+    }
+
+    .event-section{
+      padding:100px 0;
+      border-top:1px solid var(--line);
+    }
+    .event-grid{
+      display:grid;
+      grid-template-columns:1.03fr .97fr;
+      gap:34px;
+      align-items:center;
+    }
+    .event-grid.reverse{
+      grid-template-columns:.97fr 1.03fr;
+    }
+    .event-copy{
+      background:var(--card);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      padding:38px;
+    }
+    .event-day{
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:.76rem;
+      color:var(--muted);
+      margin-bottom:12px;
+    }
+    .event-copy h3{
+      margin-bottom:12px;
+    }
+    .event-copy .date{
+      color:var(--muted);
+      margin-bottom:14px;
+      font-size:1rem;
+    }
+    .event-copy .location{
+      font-size:1.08rem;
+      margin-bottom:10px;
+    }
+    .event-copy .sub{
+      color:var(--muted);
+      font-size:.98rem;
+      margin-bottom:16px;
+    }
+    .event-copy a{
+      display:inline-block;
+      margin-top:8px;
+      text-underline-offset:4px;
+    }
+    .event-photo{
+      background:white;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .event-photo img{
+      width:100%;
+      height:650px;
+      object-fit:cover;
+      display:block;
+    }
+    .event-photo.portrait img{
+      height:auto;
+      object-fit:cover;
+    }
+
+    .event-photo-stack{
+      display:grid;
+      grid-template-rows:1fr 1fr;
+      gap:16px;
+      height:720px;
+      min-width:0;
+    }
+    .event-photo-stack .event-photo{
+      min-height:0;
+    }
+    .event-photo-stack .event-photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    .event-photo-stack .catalina-photo img{
+      object-position:center 52%;
+    }
+    .event-photo-stack .matilda-view-photo img{
+      object-position:center 62%;
+    }
+    .event-photo-stack .ducks-photo img{
+      object-position:center 76%;
+    }
+    .event-photo-stack .bunker-aerial-photo img{
+      object-position:center center;
+    }
+
+    .rehearsal-grid{
+      display:grid;
+      grid-template-columns:1.03fr .97fr;
+      gap:34px;
+      align-items:stretch;
+      min-height:790px;
+    }
+    .rehearsal-left{
+      display:grid;
+      grid-template-rows:auto 1fr;
+      gap:24px;
+      min-width:0;
+    }
+    .rehearsal-composite,
+    .rehearsal-main-photo{
+      background:white;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      min-height:0;
+    }
+    .rehearsal-composite img,
+    .rehearsal-main-photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .rehearsal-composite img{
+      object-position:center center;
+    }
+    .rehearsal-main-photo img{
+      object-position:center 48%;
+    }
+
+    .map-section{
+      border-top:1px solid var(--line);
+      padding-top:100px;
+    }
+    .map-grid{
+      display:grid;
+      grid-template-columns:1.12fr .88fr;
+      gap:30px;
+      align-items:start;
+      margin-top:36px;
+    }
+    .map-frame{
+      background:white;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .map-frame img{
+      width:100%;
+      height:auto;
+      display:block;
+    }
+    .map-badge{
+      position:absolute;
+      background:rgba(255,255,255,.98);
+      border:1px solid rgba(0,0,0,.14);
+      box-shadow:0 8px 20px rgba(0,0,0,.13);
+      border-radius:999px;
+      padding:10px 14px;
+      font-size:.9rem;
+      font-weight:700;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      white-space:nowrap;
+    }
+    .map-badge .dot{
+      width:11px;
+      height:11px;
+      border-radius:50%;
+      background:#181818;
+      flex:0 0 auto;
+    }
+    .map-badge.ceremony{left:5.2%; top:10.6%;}
+    .map-badge.reception{left:28.8%; top:68.8%;}
+    .map-badge.scarborough{left:2.2%; top:24.6%;}
+    .map-badge.cottesloe{left:1.6%; top:82.8%;}
+
+    .map-side{
+      display:grid;
+      gap:24px;
+    }
+    .info-card{
+      background:var(--card);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      padding:28px;
+    }
+    .info-card h3{
+      margin-bottom:14px;
+    }
+    .info-card p{
+      color:var(--muted);
+      margin-bottom:12px;
+    }
+    .drive{
+      display:inline-block;
+      padding:12px 16px;
+      border:1px solid var(--line);
+      background:white;
+      font-weight:700;
+      font-size:.95rem;
+    }
+
+    .rsvp-section{
+      border-top:1px solid var(--line);
+      padding-top:100px;
+    }
+    .rsvp-grid{
+      display:grid;
+      grid-template-columns:.92fr 1.08fr;
+      gap:28px;
+      align-items:start;
+      margin-top:34px;
+    }
+    .rsvp-photo{
+      background:white;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .rsvp-photo img{
+      width:100%;
+      height:760px;
+      object-fit:cover;
+      object-position:center center;
+    }
+    .form-wrap{
+      background:var(--card);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      padding:34px;
+    }
+    .form-wrap p{
+      color:var(--muted);
+      margin-top:0;
+      margin-bottom:18px;
+    }
+    .row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+    .field{margin-bottom:16px}
+    label{
+      display:block;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-size:.68rem;
+      color:var(--muted);
+      margin-bottom:7px;
+    }
+    input,select,textarea{
+      width:100%;
+      border:1px solid var(--line);
+      background:white;
+      color:var(--ink);
+      padding:12px;
+    }
+    textarea{min-height:120px; resize:vertical}
+    .button{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:13px 18px;
+      border:1px solid var(--ink);
+      border-radius:999px;
+      background:var(--ink);
+      color:white;
+      cursor:pointer;
+      font-size:.88rem;
+      letter-spacing:.05em;
+    }
+    .status{
+      min-height:1.3em;
+      margin-top:12px;
+      font-size:.92rem;
+    }
+    .note{
+      margin-top:12px;
+      color:var(--muted);
+      font-size:.82rem;
+      line-height:1.6;
+    }
+
+    footer{
+      padding:32px 0 50px;
+      text-align:center;
+      color:var(--muted);
+      font-size:.86rem;
+    }
+
+    @media (max-width: 1100px){
+      .event-grid,
+      .event-grid.reverse,
+      .rehearsal-grid,
+      .map-grid,
+      .rsvp-grid{
+        grid-template-columns:1fr;
+      }
+      .rehearsal-grid{
+        min-height:0;
+      }
+      .rehearsal-left{
+        grid-template-rows:auto auto;
+      }
+      .rehearsal-composite img,
+      .rehearsal-main-photo img{
+        height:auto;
+      }
+      .event-photo-stack{
+        height:auto;
+      }
+      .event-photo-stack .event-photo img{
+        height:420px;
+      }
+      .event-photo img{height:520px}
+      .rsvp-photo img{height:540px}
+    }
+    @media (max-width: 760px){
+      .wrap{width:min(100% - 22px, 1240px)}
+      .hero{padding-top:68px}
+      section,.event-section,.map-section,.rsvp-section{padding:68px 0}
+      .nav-inner{min-height:68px}
+      .nav-links a:not(.pill){display:none}
+      .row{grid-template-columns:1fr}
+      .event-copy, .form-wrap, .info-card{padding:24px}
+      .event-photo img{height:380px}
+      .event-photo.portrait img{height:auto}
+      .event-photo-stack .event-photo img{height:300px}
+      .rehearsal-composite img,
+      .rehearsal-main-photo img{height:auto}
+      .rsvp-photo img{height:400px}
+      .map-badge{transform:scale(.78); transform-origin:left top;}
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <a href="#welcome" class="brand">Sarah &amp; Sebastian Ortiz</a>
+      <div class="nav-links">
+        <a href="#welcome">Welcome</a>
+        <a href="#rehearsal">Events</a>
+        <a href="#map-section">Map</a>
+        <a href="#rsvp" class="pill">RSVP</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" id="welcome">
+      <div class="hero-media">
+        <img src="assets/hero-proposal.jpg" alt="Proposal photo of Sarah and Sebastian">
+      </div>
+      <div class="hero-content">
+        <h1>We would love to celebrate with you.</h1>
+        <div class="hero-date">4th of March 2027</div>
+        <div class="hero-marriage"><span>The Marriage</span><span>of</span><span>Sarah &amp; Sebastian</span></div>
+      </div>
+    </section>
+
+    <section class="event-section" id="rehearsal">
+      <div class="wrap rehearsal-grid">
+        <div class="rehearsal-left">
+          <div class="event-copy">
+            <div class="event-day">Wednesday</div>
+            <h3>Rehearsal Dinner</h3>
+            <div class="date">3rd of March 2027</div>
+            <div class="location">To be announced</div>
+            <div class="sub">We’ll share the final details closer to the day.</div>
+          </div>
+
+          <div class="rehearsal-composite">
+            <img
+              src="assets/rehearsal-couple-dinner.jpg"
+              alt="Sarah and Sebastian enjoying dinner together"
+            >
+          </div>
+        </div>
+
+        <div class="rehearsal-main-photo">
+          <img src="assets/rehearsal.jpg" alt="Wedding rehearsal dinner table">
+        </div>
+      </div>
+    </section>
+
+    <section class="event-section" id="ceremony">
+      <div class="wrap event-grid reverse">
+        <div class="event-photo">
+          <img src="assets/church-clean.png" alt="Immaculate Heart of Mary Parish">
+        </div>
+        <div class="event-copy">
+          <div class="event-day">Thursday</div>
+          <h3>Ceremony</h3>
+          <div class="date">4th of March 2027</div>
+          <div class="location">Immaculate Heart of Mary Parish</div>
+          <div class="sub">Scarborough · 3:00pm</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="event-section" id="reception">
+      <div class="wrap event-grid">
+        <div class="event-copy">
+          <div class="event-day">Thursday</div>
+          <h3>Reception</h3>
+          <div class="date">4th of March 2027</div>
+          <div class="location">Matilda Bay Catalina Room</div>
+          <div class="sub">Crawley</div>
+        </div>
+        <div class="event-photo-stack">
+          <div class="event-photo catalina-photo">
+            <img src="assets/catalina.jpg" alt="Matilda Bay Catalina Room">
+          </div>
+          <div class="event-photo matilda-view-photo">
+            <img src="assets/matilda-bay-view.jpg" alt="View across Matilda Bay toward Perth">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="event-section" id="weekend">
+      <div class="wrap event-grid reverse">
+        <div class="event-photo-stack">
+          <div class="event-photo ducks-photo">
+            <img src="assets/ducks.jpg" alt="Ducks on the road during the Bunker Bay weekend">
+          </div>
+          <div class="event-photo bunker-aerial-photo">
+            <img src="assets/bunker-bay-aerial.jpg" alt="Aerial view of Pullman Bunker Bay and the coastline">
+          </div>
+        </div>
+        <div class="event-copy">
+          <div class="event-day">Weekend Away</div>
+          <h3>Pullman Bunker Bay</h3>
+          <div class="date">5th–7th of March 2027</div>
+          <div class="location">Margaret River Region</div>
+          <div class="sub">We’ll be staying at Pullman Bunker Bay for the weekend.<br>All are welcome.</div>
+          <a href="https://www.pullmanbunkerbayresort.com.au/" target="_blank" rel="noopener">Visit the resort website ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="map-section" id="map-section">
+      <div class="wrap">
+        <h2 class="section-title">Map & Recommendations</h2>
+
+        <div class="map-grid">
+          <div class="map-frame">
+            <img src="assets/map.png" alt="Map showing the ceremony, reception, Scarborough and Cottesloe">
+            <div class="map-badge ceremony"><span class="dot"></span>Immaculate Heart of Mary</div>
+            <div class="map-badge reception"><span class="dot"></span>Matilda Bay</div>
+            <div class="map-badge scarborough"><span class="dot"></span>Scarborough</div>
+            <div class="map-badge cottesloe"><span class="dot"></span>Cottesloe</div>
+          </div>
+
+          <div class="map-side">
+            <div class="info-card">
+              <h3>We recommend you stay in Scarborough or Cottesloe</h3>
+              <div class="drive">Approx. 30 minute drive from the church to Matilda Bay</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rsvp-section" id="rsvp">
+      <div class="wrap">
+        <h2 class="section-title">RSVP</h2>
+
+        <div class="rsvp-grid">
+          <div class="rsvp-photo">
+            <img src="assets/couple.jpg" alt="Sarah and Sebastian">
+          </div>
+
+          <div class="form-wrap">
+            <form id="rsvpForm">
+              <div class="row">
+                <div class="field">
+                  <label for="name">Name</label>
+                  <input id="name" name="name" required>
+                </div>
+                <div class="field">
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" required>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="attending">Attending</label>
+                <select id="attending" name="attending" required>
+                  <option value="">Select</option>
+                  <option>Yes</option>
+                  <option>No</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="guests">Other guests</label>
+                <input id="guests" name="guests">
+              </div>
+
+              <div class="field">
+                <label for="notes">Notes</label>
+                <textarea id="notes" name="notes"></textarea>
+              </div>
+
+              <button class="button" type="submit">Send RSVP</button>
+              <div class="status" id="status"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Sarah &amp; Sebastian Ortiz · Thursday 4 March 2027 · Perth, Western Australia
+  </footer>
+
+  <script>
+    const GOOGLE_APPS_SCRIPT_URL = "";
+    const form = document.getElementById("rsvpForm");
+    const statusEl = document.getElementById("status");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      if (!GOOGLE_APPS_SCRIPT_URL){
+        statusEl.textContent = "Preview mode only — add your Google Apps Script URL to activate RSVPs.";
+        return;
+      }
+
+      statusEl.textContent = "Sending…";
+      try{
+        await fetch(GOOGLE_APPS_SCRIPT_URL, {
+          method:"POST",
+          mode:"no-cors",
+          headers:{"Content-Type":"text/plain;charset=utf-8"},
+          body:JSON.stringify(data)
+        });
+        form.reset();
+        statusEl.textContent = "Thank you — your RSVP has been sent.";
+      }catch(err){
+        statusEl.textContent = "Something went wrong. Please try again.";
+      }
+    });
+  </script>
+</body>
+</html>
