@@ -445,6 +445,7 @@
       margin-top:12px;
       font-size:.92rem;
     }
+    .status.is-error{color:#a3211c}
     .note{
       margin-top:12px;
       color:var(--muted);
@@ -713,21 +714,28 @@
 
       if (!GOOGLE_APPS_SCRIPT_URL){
         statusEl.textContent = "Preview mode only — add your Google Apps Script URL to activate RSVPs.";
+        statusEl.classList.add("is-error");
         return;
       }
 
+      statusEl.classList.remove("is-error");
       statusEl.textContent = "Sending…";
       try{
-        await fetch(GOOGLE_APPS_SCRIPT_URL, {
+        const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
           method:"POST",
-          mode:"no-cors",
           headers:{"Content-Type":"text/plain;charset=utf-8"},
           body:JSON.stringify(data)
         });
+        if (!response.ok) throw new Error("RSVP request failed");
+
+        const result = await response.json();
+        if (!result.ok) throw new Error(result.error || "The RSVP could not be sent.");
+
         form.reset();
         statusEl.textContent = "Thank you — your RSVP has been sent.";
       }catch(err){
-        statusEl.textContent = "Something went wrong. Please try again.";
+        statusEl.textContent = "Error sending RSVP. Please try again.";
+        statusEl.classList.add("is-error");
       }
     });
   </script>
