@@ -3,7 +3,7 @@
  *
  * 1. Create a Google Sheet and add a sheet/tab named "RSVPs".
  * 2. Put these headers in row 1:
- *    Timestamp | Name | Email | Attending | Other Guests | Bunker Bay | Dietary | Note
+ *    Timestamp | Name | Email | Attending | Other Guests | Notes
  * 3. Paste your spreadsheet ID below.
  * 4. In script.google.com, create a project and paste this file.
  * 5. Deploy > New deployment > Web app.
@@ -45,9 +45,7 @@ function doPost(e) {
       clean_(payload.email),
       clean_(payload.attending),
       clean_(payload.guests),
-      clean_(payload.bunkerBay),
-      clean_(payload.dietary),
-      clean_(payload.note)
+      clean_(payload.notes)
     ]);
 
     return json_({ ok: true });
