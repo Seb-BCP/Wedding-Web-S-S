@@ -446,6 +446,15 @@
       font-size:.92rem;
     }
     .status.is-error{color:#a3211c}
+    .status.is-success{
+      margin-top:12px;
+      padding:12px 14px;
+      border:1px solid #9dbda7;
+      background:#edf4ee;
+      color:#1f5d42;
+      font-weight:700;
+      line-height:1.5;
+    }
     .note{
       margin-top:12px;
       color:var(--muted);
@@ -662,7 +671,7 @@
             <form id="rsvpForm">
               <div class="row">
                 <div class="field">
-                  <label for="name">Name</label>
+                  <label for="name">Full Name</label>
                   <input id="name" name="name" required>
                 </div>
                 <div class="field">
@@ -718,7 +727,7 @@
         return;
       }
 
-      statusEl.classList.remove("is-error");
+      statusEl.classList.remove("is-error", "is-success");
       statusEl.textContent = "Sending…";
       try{
         const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
@@ -732,7 +741,8 @@
         if (!result.ok) throw new Error(result.error || "The RSVP could not be sent.");
 
         form.reset();
-        statusEl.textContent = "Thank you — your RSVP has been sent.";
+        statusEl.textContent = "Thank you — your RSVP has been sent. We can't wait to see you!";
+        statusEl.classList.add("is-success");
       }catch(err){
         statusEl.textContent = "Error sending RSVP. Please try again.";
         statusEl.classList.add("is-error");
