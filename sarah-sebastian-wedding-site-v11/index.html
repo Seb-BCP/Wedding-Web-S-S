@@ -478,6 +478,22 @@
       .wrap{width:min(100% - 22px, 1240px)}
       .hero{padding-top:68px}
       section,.event-section,.map-section,.rsvp-section{padding:68px 0}
+      .event-section::before,
+      .map-section::before{
+        content:"";
+        display:block;
+        width:9px;
+        height:9px;
+        margin:0 auto 28px;
+        border:1px solid var(--ink);
+        opacity:.45;
+        transform:rotate(45deg);
+      }
+      .event-grid > .event-copy{order:1}
+      .event-grid > .event-photo,
+      .event-grid > .event-photo-stack{order:2}
+      .map-grid .map-side{order:1}
+      .map-grid .map-frame{order:2}
       .nav-inner{min-height:68px}
       .nav-links a:not(.pill){display:none}
       .row{grid-template-columns:1fr}
