@@ -741,7 +741,7 @@
         if (!result.ok) throw new Error(result.error || "The RSVP could not be sent.");
 
         form.reset();
-        statusEl.textContent = "Thank you — your RSVP has been sent. We can't wait to see you!";
+        statusEl.textContent = "Thank you — your RSVP has been sent.";
         statusEl.classList.add("is-success");
       }catch(err){
         statusEl.textContent = "Error sending RSVP. Please try again.";
