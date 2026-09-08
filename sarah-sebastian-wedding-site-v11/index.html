@@ -41,6 +41,215 @@
       font-family:"Libre Baskerville", serif;
       line-height:1.65;
     }
+    body.reveal-lock{overflow:hidden}
+    .envelope-reveal{
+      position:fixed;
+      inset:0;
+      z-index:2000;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      background:#e9e3da;
+      opacity:1;
+      transition:opacity .6s ease, visibility .6s ease;
+    }
+    .envelope-reveal::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 12% 14%, rgba(255,255,255,.7), transparent 30%),
+        radial-gradient(circle at 84% 80%, rgba(255,255,255,.42), transparent 36%);
+      pointer-events:none;
+    }
+    .envelope-reveal.is-dismissing{
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+    }
+    .envelope-reveal-inner{
+      position:relative;
+      z-index:1;
+      display:grid;
+      place-items:center;
+      width:min(690px, calc(100vw - 36px));
+      min-height:100svh;
+      min-height:100dvh;
+      padding:calc(74px + env(safe-area-inset-top)) 0 calc(54px + env(safe-area-inset-bottom));
+    }
+    .envelope-scene{
+      position:relative;
+      width:min(620px, 100%);
+      aspect-ratio:1.1;
+      overflow:hidden;
+      perspective:1400px;
+    }
+    .envelope-letter{
+      position:absolute;
+      left:13%;
+      bottom:7%;
+      z-index:2;
+      width:74%;
+      height:62%;
+      padding:clamp(22px,4vw,34px) clamp(18px,4vw,40px);
+      border:1px solid rgba(20,20,20,.2);
+      background:var(--card);
+      box-shadow:0 16px 34px rgba(20,20,20,.14);
+      color:var(--ink);
+      text-align:center;
+      transform:translateY(10%) scale(.96);
+      transform-origin:center bottom;
+      opacity:.28;
+    }
+    .envelope-letter::before,
+    .envelope-letter::after{
+      content:"";
+      position:absolute;
+      width:20px;
+      height:20px;
+      border-color:rgba(20,20,20,.2);
+      pointer-events:none;
+    }
+    .envelope-letter::before{
+      top:12px;
+      left:12px;
+      border-top:1px solid;
+      border-left:1px solid;
+    }
+    .envelope-letter::after{
+      right:12px;
+      bottom:12px;
+      border-right:1px solid;
+      border-bottom:1px solid;
+    }
+    .envelope-letter .envelope-kicker{
+      margin:0 0 16px;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:.67rem;
+      color:var(--muted);
+    }
+    .envelope-letter h2{
+      margin:0 0 16px;
+      font-family:"Cormorant Garamond", serif;
+      font-size:clamp(2.25rem,5.8vw,3.75rem);
+      font-weight:500;
+      line-height:.98;
+    }
+    .envelope-letter h2 span{font-size:.8em}
+    .envelope-letter .envelope-copy{
+      margin:0 auto 20px;
+      max-width:300px;
+      font-size:clamp(.82rem,1.8vw,1rem);
+      line-height:1.65;
+    }
+    .envelope-letter .envelope-date{
+      display:inline-block;
+      padding-top:14px;
+      border-top:1px solid var(--line);
+      font-family:"Cormorant Garamond", serif;
+      font-size:clamp(1.35rem,3.1vw,1.85rem);
+      line-height:1.12;
+    }
+    .envelope{
+      position:absolute;
+      right:0;
+      bottom:0;
+      left:0;
+      z-index:3;
+      height:63%;
+      filter:drop-shadow(0 14px 18px rgba(20,20,20,.12));
+    }
+    .envelope-back{
+      position:absolute;
+      inset:0;
+      background:#d4cabc;
+    }
+    .envelope-front{
+      position:absolute;
+      inset:0;
+      z-index:3;
+      background:#e0d7ca;
+      clip-path:polygon(0 0, 50% 48%, 100% 0, 100% 100%, 0 100%);
+    }
+    .envelope-front::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      border:1px solid rgba(20,20,20,.12);
+      clip-path:polygon(0 0, 50% 48%, 100% 0, 100% 100%, 0 100%);
+    }
+    .envelope-flap{
+      position:absolute;
+      top:0;
+      right:0;
+      left:0;
+      z-index:4;
+      height:61%;
+      background:#ece4d9;
+      clip-path:polygon(0 0, 100% 0, 50% 100%);
+      transform-origin:top center;
+      transform:rotateX(0deg);
+      backface-visibility:hidden;
+    }
+    .envelope-seal{
+      position:absolute;
+      top:50%;
+      left:50%;
+      z-index:5;
+      display:grid;
+      width:58px;
+      aspect-ratio:1;
+      place-items:center;
+      border:1px solid rgba(255,255,255,.72);
+      border-radius:50%;
+      background:var(--ink);
+      box-shadow:0 4px 12px rgba(20,20,20,.25);
+      color:#f5f0e8;
+      font-family:"Cormorant Garamond", serif;
+      font-size:1.55rem;
+      transform:translate(-50%, -50%);
+    }
+    .envelope-reveal.is-opening .envelope-flap{
+      z-index:1;
+      animation:open-envelope .8s cubic-bezier(.3,.8,.25,1) .35s forwards;
+    }
+    .envelope-reveal.is-opening .envelope-seal{
+      animation:release-seal .32s ease .43s forwards;
+    }
+    .envelope-reveal.is-opening .envelope-letter{
+      animation:raise-letter 1.65s cubic-bezier(.2,.76,.24,1) .9s forwards;
+    }
+    @keyframes open-envelope{
+      to{transform:rotateX(-178deg)}
+    }
+    @keyframes release-seal{
+      to{transform:translate(-50%, -50%) scale(.72); opacity:0}
+    }
+    @keyframes raise-letter{
+      0%, 35%{z-index:2; transform:translateY(10%) scale(.96); opacity:.28}
+      36%{z-index:4; opacity:1}
+      100%{z-index:4; transform:translateY(-43%) scale(1); opacity:1}
+    }
+    .reveal-skip{
+      position:absolute;
+      right:22px;
+      bottom:22px;
+      z-index:2;
+      min-height:44px;
+      padding:9px 13px;
+      border:1px solid rgba(20,20,20,.25);
+      background:rgba(250,248,245,.72);
+      color:var(--ink);
+      cursor:pointer;
+      font-size:.7rem;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+    }
+    .reveal-skip:focus-visible{
+      outline:2px solid var(--ink);
+      outline-offset:3px;
+    }
     img{display:block;max-width:100%}
     a{color:inherit}
     button,input,select,textarea{font:inherit}
@@ -616,10 +825,45 @@
       .rehearsal-main-photo img{height:auto}
       .rsvp-photo img{height:400px}
       .map-badge{transform:scale(.78); transform-origin:left top;}
+      .envelope-reveal-inner{width:min(100%, calc(100vw - 22px)); padding:calc(58px + env(safe-area-inset-top)) 0 calc(58px + env(safe-area-inset-bottom))}
+      .envelope-letter{left:8%; width:84%; height:62%; padding:20px 18px}
+      .envelope-letter .envelope-copy{max-width:250px; font-size:.79rem}
+      .envelope-letter .envelope-date{font-size:1.35rem}
+      .envelope-seal{width:50px; font-size:1.3rem}
+      .reveal-skip{right:12px; bottom:14px}
+    }
+    @media (prefers-reduced-motion: reduce){
+      .envelope-reveal *,
+      .envelope-reveal::before{
+        animation-delay:0ms !important;
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:.01ms !important;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="envelope-reveal" id="envelopeReveal" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="envelopeTitle" aria-describedby="envelopeCopy envelopeDate">
+    <div class="envelope-reveal-inner">
+      <div class="envelope-scene">
+        <article class="envelope-letter">
+          <p class="envelope-kicker">Together with their families</p>
+          <h2 id="envelopeTitle">Sarah <span>&amp;</span> Sebastian</h2>
+          <p class="envelope-copy" id="envelopeCopy">invite you to share in the celebration of their marriage</p>
+          <div class="envelope-date" id="envelopeDate">Thursday 4th March 2027<br>at 4:00pm</div>
+        </article>
+        <div class="envelope" aria-hidden="true">
+          <div class="envelope-back"></div>
+          <div class="envelope-front"></div>
+          <div class="envelope-flap"></div>
+          <div class="envelope-seal">S&amp;S</div>
+        </div>
+      </div>
+      <button class="reveal-skip" id="skipReveal" type="button">Skip introduction</button>
+    </div>
+  </div>
+
   <nav class="nav">
     <div class="wrap nav-inner">
       <a href="#welcome" class="brand">Sarah &amp; Sebastian Ortiz</a>
@@ -745,6 +989,9 @@
 
   <script>
     const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbwc4ewnjjCc5Eq0NQd5B-RlwJOpRtXB-WepShl9xsCF196-YBo5FbliS86piUdGZ6U/exec";
+    const envelopeReveal = document.getElementById("envelopeReveal");
+    const skipRevealButton = document.getElementById("skipReveal");
+    const pageContent = document.querySelectorAll(".nav, main, footer");
     const form = document.getElementById("rsvpForm");
     const statusEl = document.getElementById("status");
     const invitationSection = document.getElementById("invitation");
@@ -754,6 +1001,44 @@
     const notesEl = document.getElementById("notes");
     const inviteCode = new URLSearchParams(window.location.search).get("invite")?.trim();
     let invitation = null;
+    let revealTimer;
+    let revealFinished = false;
+
+    function setPageInert(isInert) {
+      pageContent.forEach((element) => { element.inert = isInert; });
+    }
+
+    function finishEnvelopeReveal() {
+      if (revealFinished || envelopeReveal.hidden) return;
+      revealFinished = true;
+      window.clearTimeout(revealTimer);
+      envelopeReveal.classList.add("is-dismissing");
+      window.setTimeout(() => {
+        envelopeReveal.hidden = true;
+        envelopeReveal.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("reveal-lock");
+        setPageInert(false);
+        document.querySelector(".nav a")?.focus({ preventScroll: true });
+      }, 620);
+    }
+
+    function startEnvelopeReveal() {
+      if (!inviteCode) return;
+      envelopeReveal.hidden = false;
+      envelopeReveal.setAttribute("aria-hidden", "false");
+      document.body.classList.add("reveal-lock");
+      setPageInert(true);
+      skipRevealButton.focus({ preventScroll: true });
+      window.requestAnimationFrame(() => envelopeReveal.classList.add("is-opening"));
+
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      revealTimer = window.setTimeout(finishEnvelopeReveal, reducedMotion ? 120 : 5000);
+    }
+
+    skipRevealButton.addEventListener("click", finishEnvelopeReveal);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") finishEnvelopeReveal();
+    });
 
     function setStatus(message, state) {
       statusEl.className = "status";
@@ -910,6 +1195,7 @@
       }
     });
 
+    startEnvelopeReveal();
     loadInvitation();
   </script>
 </body>
