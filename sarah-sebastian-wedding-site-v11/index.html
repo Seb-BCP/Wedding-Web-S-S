@@ -456,6 +456,94 @@
       font-weight:700;
       line-height:1.5;
     }
+    .invitation-section{
+      padding:64px 0;
+      border-bottom:1px solid var(--line);
+    }
+    .invitation-wrap{width:min(920px, calc(100% - 36px))}
+    .invitation-card{
+      padding:34px;
+      border:1px solid var(--line);
+      background:var(--card);
+      box-shadow:var(--shadow);
+      text-align:center;
+    }
+    .invitation-kicker{
+      margin-bottom:12px;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:.72rem;
+      color:var(--muted);
+    }
+    .invitation-card p{
+      margin:0;
+      font-family:"Cormorant Garamond", serif;
+      font-size:clamp(2rem,4.2vw,3.45rem);
+      line-height:1.06;
+    }
+    .guest-responses{
+      display:grid;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    .guest-response{
+      padding:22px;
+      border:1px solid var(--line);
+      background:white;
+    }
+    .guest-response h4{
+      margin-bottom:16px;
+      font-size:clamp(1.55rem,2.5vw,2rem);
+    }
+    .attendance-field{
+      min-inline-size:0;
+      margin:0 0 16px;
+      padding:0;
+      border:0;
+    }
+    .attendance-field legend{
+      padding:0;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-size:.68rem;
+      color:var(--muted);
+      margin-bottom:7px;
+    }
+    .attendance-options{display:flex; gap:8px}
+    .attendance-option{position:relative}
+    .attendance-option input{
+      position:absolute;
+      opacity:0;
+      pointer-events:none;
+    }
+    .attendance-option label{
+      min-width:82px;
+      margin:0;
+      padding:10px 14px;
+      border:1px solid var(--line);
+      background:white;
+      color:var(--ink);
+      text-align:center;
+      cursor:pointer;
+    }
+    .attendance-option input:checked + label{
+      border-color:var(--ink);
+      background:var(--ink);
+      color:white;
+    }
+    .attendance-option input:focus-visible + label{
+      outline:2px solid var(--ink);
+      outline-offset:2px;
+    }
+    .dietary-field[hidden]{display:none}
+    .honeypot{
+      position:absolute;
+      left:-9999px;
+      width:1px;
+      height:1px;
+      overflow:hidden;
+    }
+    .status.is-loading{color:var(--muted)}
     .note{
       margin-top:12px;
       color:var(--muted);
@@ -520,7 +608,7 @@
       .nav-inner{min-height:68px}
       .nav-links a:not(.pill){display:none}
       .row{grid-template-columns:1fr}
-      .event-copy, .form-wrap, .info-card{padding:24px}
+      .event-copy, .form-wrap, .info-card, .invitation-card{padding:24px}
       .event-photo img{height:380px}
       .event-photo.portrait img{height:auto}
       .event-photo-stack .event-photo img{height:300px}
@@ -553,6 +641,15 @@
         <h1>We would love to celebrate with you.</h1>
         <div class="hero-date">4th of March 2027</div>
         <div class="hero-marriage"><span>Sarah &amp; Sebastian</span></div>
+      </div>
+    </section>
+
+    <section class="invitation-section" id="invitation" hidden>
+      <div class="wrap invitation-wrap">
+        <div class="invitation-card">
+          <div class="invitation-kicker">Wedding invitation</div>
+          <p id="invitationMessage"></p>
+        </div>
       </div>
     </section>
 
@@ -615,40 +712,27 @@
           </div>
 
           <div class="form-wrap">
-            <form id="rsvpForm">
-              <div class="row">
-                <div class="field">
-                  <label for="name">Full Name</label>
-                  <input id="name" name="name" required>
-                </div>
-                <div class="field">
-                  <label for="email">Email</label>
-                  <input id="email" name="email" type="email" required>
-                </div>
+            <form id="rsvpForm" hidden>
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" required>
               </div>
 
-              <div class="field">
-                <label for="attending">Attending</label>
-                <select id="attending" name="attending" required>
-                  <option value="">Select</option>
-                  <option>Yes</option>
-                  <option>No</option>
-                </select>
-              </div>
-
-              <div class="field">
-                <label for="guests">Other guests</label>
-                <input id="guests" name="guests">
-              </div>
+              <div class="guest-responses" id="guestResponses"></div>
 
               <div class="field">
                 <label for="notes">Notes</label>
                 <textarea id="notes" name="notes"></textarea>
               </div>
 
+              <div class="honeypot" aria-hidden="true">
+                <label for="website">Website</label>
+                <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+              </div>
+
               <button class="button" type="submit">Send RSVP</button>
-              <div class="status" id="status"></div>
             </form>
+            <div class="status" id="status" role="status" aria-live="polite"></div>
           </div>
         </div>
       </div>
@@ -660,41 +744,173 @@
   </footer>
 
   <script>
-    const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzh6eujuWOS4sbtKWKU1JW-wf9pI6h10ylLXlV2CZ5aicftCoLdgZtDjjr9qz9wSVg/exec";
+    const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbwc4ewnjjCc5Eq0NQd5B-RlwJOpRtXB-WepShl9xsCF196-YBo5FbliS86piUdGZ6U/exec";
     const form = document.getElementById("rsvpForm");
     const statusEl = document.getElementById("status");
+    const invitationSection = document.getElementById("invitation");
+    const invitationMessageEl = document.getElementById("invitationMessage");
+    const guestResponsesEl = document.getElementById("guestResponses");
+    const emailEl = document.getElementById("email");
+    const notesEl = document.getElementById("notes");
+    const inviteCode = new URLSearchParams(window.location.search).get("invite")?.trim();
+    let invitation = null;
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const data = Object.fromEntries(new FormData(form).entries());
+    function setStatus(message, state) {
+      statusEl.className = "status";
+      if (state) statusEl.classList.add("is-" + state);
+      statusEl.textContent = message;
+    }
 
-      if (!GOOGLE_APPS_SCRIPT_URL){
-        statusEl.textContent = "Preview mode only — add your Google Apps Script URL to activate RSVPs.";
-        statusEl.classList.add("is-error");
+    function invitationFrom(result) {
+      const guests = Array.isArray(result.guests)
+        ? result.guests
+            .map((name) => String(name || "").trim())
+            .filter(Boolean)
+            .slice(0, 4)
+        : [];
+
+      if (!guests.length) throw new Error("Invalid invitation data");
+      return { email: String(result.email || "").trim(), guests };
+    }
+
+    function formatGuestNames(guests) {
+      if (guests.length === 1) return guests[0];
+      if (guests.length === 2) return guests.join(" & ");
+      return guests.slice(0, -1).join(", ") + " & " + guests[guests.length - 1];
+    }
+
+    function addGuestResponse(name, index) {
+      const card = document.createElement("section");
+      card.className = "guest-response";
+
+      const heading = document.createElement("h4");
+      heading.textContent = name;
+      card.append(heading);
+
+      const attendanceField = document.createElement("fieldset");
+      attendanceField.className = "attendance-field";
+      const question = document.createElement("legend");
+      question.textContent = "Will you be attending?";
+      const options = document.createElement("div");
+      options.className = "attendance-options";
+
+      ["yes", "no"].forEach((value) => {
+        const option = document.createElement("div");
+        option.className = "attendance-option";
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.id = "attending-" + index + "-" + value;
+        input.name = "attending-" + index;
+        input.value = value;
+        input.required = true;
+        const label = document.createElement("label");
+        label.htmlFor = input.id;
+        label.textContent = value[0].toUpperCase() + value.slice(1);
+        option.append(input, label);
+        options.append(option);
+      });
+      attendanceField.append(question, options);
+
+      const dietaryField = document.createElement("div");
+      dietaryField.className = "field dietary-field";
+      dietaryField.hidden = true;
+      const dietaryLabel = document.createElement("label");
+      const dietaryId = "dietary-" + index;
+      dietaryLabel.htmlFor = dietaryId;
+      dietaryLabel.textContent = "Dietary requirements";
+      const dietary = document.createElement("input");
+      dietary.id = dietaryId;
+      dietary.type = "text";
+      dietary.autocomplete = "off";
+      dietary.disabled = true;
+      dietaryField.append(dietaryLabel, dietary);
+
+      attendanceField.addEventListener("change", () => {
+        const isAttending = document.getElementById("attending-" + index + "-yes").checked;
+        dietaryField.hidden = !isAttending;
+        dietary.disabled = !isAttending;
+        if (!isAttending) dietary.value = "";
+      });
+
+      card.append(attendanceField, dietaryField);
+      guestResponsesEl.append(card);
+    }
+
+    function renderInvitation(data) {
+      invitation = data;
+      emailEl.value = invitation.email;
+      invitationMessageEl.textContent = formatGuestNames(invitation.guests) + " " +
+        (invitation.guests.length === 1 ? "is" : "are") +
+        " invited to the wedding of Sarah & Sebastian Ortiz.";
+      invitationSection.hidden = false;
+      guestResponsesEl.replaceChildren();
+      invitation.guests.forEach(addGuestResponse);
+      form.hidden = false;
+    }
+
+    async function loadInvitation() {
+      form.hidden = true;
+      if (!inviteCode) {
+        setStatus("Please use the personal RSVP link sent with your invitation.", "error");
         return;
       }
 
-      statusEl.classList.remove("is-error", "is-success");
-      statusEl.textContent = "Sending…";
-      try{
-        const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
-          method:"POST",
-          headers:{"Content-Type":"text/plain;charset=utf-8"},
-          body:JSON.stringify(data)
-        });
-        if (!response.ok) throw new Error("RSVP request failed");
-
+      setStatus("Loading your invitation…", "loading");
+      try {
+        const lookupUrl = new URL(RSVP_API_URL);
+        lookupUrl.searchParams.set("invite", inviteCode);
+        const response = await fetch(lookupUrl, { cache: "no-store" });
         const result = await response.json();
-        if (!result.ok) throw new Error(result.error || "The RSVP could not be sent.");
 
-        form.reset();
-        statusEl.textContent = "Thank you — your RSVP has been sent.";
-        statusEl.classList.add("is-success");
-      }catch(err){
-        statusEl.textContent = "Error sending RSVP. Please try again.";
-        statusEl.classList.add("is-error");
+        if (!response.ok || !result.ok || result.valid !== true) {
+          setStatus("This invitation link is invalid or has expired.", "error");
+          return;
+        }
+
+        renderInvitation(invitationFrom(result));
+        setStatus("");
+      } catch (error) {
+        setStatus("We could not load this invitation. Please try again later.", "error");
+      }
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!invitation || !form.reportValidity()) return;
+
+      const responses = invitation.guests.map((name, index) => {
+        const attending = document.getElementById("attending-" + index + "-yes").checked;
+        const dietary = document.getElementById("dietary-" + index).value.trim();
+        return { name, attending, dietary: attending ? dietary : "" };
+      });
+      const website = form.elements.website.value || "";
+
+      setStatus("Sending…", "loading");
+      try {
+        const response = await fetch(RSVP_API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            invite: inviteCode,
+            email: emailEl.value.trim(),
+            responses,
+            notes: notesEl.value.trim(),
+            website
+          })
+        });
+        const result = await response.json();
+        if (!response.ok || !result.ok || result.success === false) {
+          throw new Error("RSVP submission failed");
+        }
+
+        form.hidden = true;
+        setStatus("Thank you — your RSVP has been sent.", "success");
+      } catch (error) {
+        setStatus("Error sending RSVP. Please try again.", "error");
       }
     });
+
+    loadInvitation();
   </script>
 </body>
 </html>
