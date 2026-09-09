@@ -47,12 +47,13 @@
       inset:0;
       z-index:2000;
       display:grid;
-      place-items:center;
-      overflow:hidden;
+      place-items:start center;
+      overflow:auto;
       background:#e9e3da;
       opacity:1;
       transition:opacity .6s ease, visibility .6s ease;
     }
+    .envelope-reveal[hidden]{display:none}
     .envelope-reveal::before{
       content:"";
       position:absolute;
@@ -75,31 +76,31 @@
       width:min(690px, calc(100vw - 36px));
       min-height:100svh;
       min-height:100dvh;
-      padding:calc(74px + env(safe-area-inset-top)) 0 calc(54px + env(safe-area-inset-bottom));
+      padding:calc(24px + env(safe-area-inset-top)) 0 calc(84px + env(safe-area-inset-bottom));
     }
     .envelope-scene{
       position:relative;
       width:min(620px, 100%);
-      aspect-ratio:1.1;
-      overflow:hidden;
+      padding:24px 0 clamp(70px,14vw,100px);
       perspective:1400px;
     }
     .envelope-letter{
-      position:absolute;
-      left:13%;
-      bottom:7%;
+      position:relative;
       z-index:2;
       width:74%;
-      height:62%;
-      padding:clamp(22px,4vw,34px) clamp(18px,4vw,40px);
+      margin:0 auto;
+      display:grid;
+      gap:clamp(16px,3vw,22px);
+      padding:clamp(28px,5vw,38px) clamp(24px,4vw,36px);
       border:1px solid rgba(20,20,20,.2);
       background:var(--card);
       box-shadow:0 16px 34px rgba(20,20,20,.14);
       color:var(--ink);
+      font-family:"Cormorant Garamond", serif;
       text-align:center;
-      transform:translateY(10%) scale(.96);
+      transform:translateY(35%) scale(.96);
       transform-origin:center bottom;
-      opacity:.28;
+      opacity:0;
     }
     .envelope-letter::before,
     .envelope-letter::after{
@@ -123,33 +124,36 @@
       border-bottom:1px solid;
     }
     .envelope-letter .envelope-kicker{
-      margin:0 0 16px;
-      text-transform:uppercase;
-      letter-spacing:.18em;
-      font-size:.67rem;
+      margin:0;
+      letter-spacing:.04em;
+      font-size:clamp(1.1rem,3vw,1.25rem);
+      line-height:1.3;
       color:var(--muted);
     }
     .envelope-letter h2{
-      margin:0 0 16px;
+      margin:0;
       font-family:"Cormorant Garamond", serif;
-      font-size:clamp(2.25rem,5.8vw,3.75rem);
+      font-size:clamp(2.65rem,7vw,3.75rem);
       font-weight:500;
       line-height:.98;
     }
-    .envelope-letter h2 span{font-size:.8em}
+    .envelope-letter h2 span{display:block}
+    .envelope-letter h2 .envelope-amp{font-size:.58em; margin:6px 0}
     .envelope-letter .envelope-copy{
-      margin:0 auto 20px;
+      margin:0 auto;
       max-width:300px;
-      font-size:clamp(.82rem,1.8vw,1rem);
-      line-height:1.65;
+      font-size:clamp(1.2rem,3vw,1.4rem);
+      line-height:1.3;
+      text-wrap:balance;
     }
     .envelope-letter .envelope-date{
-      display:inline-block;
-      padding-top:14px;
+      display:block;
+      margin:0 auto;
+      padding-top:18px;
       border-top:1px solid var(--line);
       font-family:"Cormorant Garamond", serif;
-      font-size:clamp(1.35rem,3.1vw,1.85rem);
-      line-height:1.12;
+      font-size:clamp(1.25rem,3.1vw,1.65rem);
+      line-height:1.35;
     }
     .envelope{
       position:absolute;
@@ -227,9 +231,10 @@
       to{transform:translate(-50%, -50%) scale(.72); opacity:0}
     }
     @keyframes raise-letter{
-      0%, 35%{z-index:2; transform:translateY(10%) scale(.96); opacity:.28}
-      36%{z-index:4; opacity:1}
-      100%{z-index:4; transform:translateY(-43%) scale(1); opacity:1}
+      0%{z-index:2; transform:translateY(35%) scale(.96); opacity:0}
+      35%{z-index:2; transform:translateY(20%) scale(.98); opacity:1}
+      36%{z-index:4}
+      100%{z-index:4; transform:translateY(0) scale(1); opacity:1}
     }
     .reveal-skip{
       position:absolute;
@@ -825,10 +830,8 @@
       .rehearsal-main-photo img{height:auto}
       .rsvp-photo img{height:400px}
       .map-badge{transform:scale(.78); transform-origin:left top;}
-      .envelope-reveal-inner{width:min(100%, calc(100vw - 22px)); padding:calc(58px + env(safe-area-inset-top)) 0 calc(58px + env(safe-area-inset-bottom))}
-      .envelope-letter{left:8%; width:84%; height:62%; padding:20px 18px}
-      .envelope-letter .envelope-copy{max-width:250px; font-size:.79rem}
-      .envelope-letter .envelope-date{font-size:1.35rem}
+      .envelope-reveal-inner{width:calc(100% - 22px)}
+      .envelope-letter{width:88%}
       .envelope-seal{width:50px; font-size:1.3rem}
       .reveal-skip{right:12px; bottom:14px}
     }
@@ -849,7 +852,7 @@
       <div class="envelope-scene">
         <article class="envelope-letter">
           <p class="envelope-kicker">Together with their families</p>
-          <h2 id="envelopeTitle">Sarah <span>&amp;</span> Sebastian</h2>
+          <h2 id="envelopeTitle"><span>Sarah</span> <span class="envelope-amp">&amp;</span> <span>Sebastian</span></h2>
           <p class="envelope-copy" id="envelopeCopy">invite you to share in the celebration of their marriage</p>
           <div class="envelope-date" id="envelopeDate">Thursday 4th March 2027<br>at 4:00pm</div>
         </article>
@@ -957,11 +960,6 @@
 
           <div class="form-wrap">
             <form id="rsvpForm" hidden>
-              <div class="field">
-                <label for="email">Email</label>
-                <input id="email" name="email" type="email" autocomplete="email" required>
-              </div>
-
               <div class="guest-responses" id="guestResponses"></div>
 
               <div class="field">
@@ -997,10 +995,11 @@
     const invitationSection = document.getElementById("invitation");
     const invitationMessageEl = document.getElementById("invitationMessage");
     const guestResponsesEl = document.getElementById("guestResponses");
-    const emailEl = document.getElementById("email");
     const notesEl = document.getElementById("notes");
+    const submitButton = form.querySelector('button[type="submit"]');
     const inviteCode = new URLSearchParams(window.location.search).get("invite")?.trim();
     let invitation = null;
+    let submitting = false;
     let revealTimer;
     let revealFinished = false;
 
@@ -1055,7 +1054,7 @@
         : [];
 
       if (!guests.length) throw new Error("Invalid invitation data");
-      return { email: String(result.email || "").trim(), guests };
+      return { guests };
     }
 
     function formatGuestNames(guests) {
@@ -1123,7 +1122,6 @@
 
     function renderInvitation(data) {
       invitation = data;
-      emailEl.value = invitation.email;
       invitationMessageEl.textContent = formatGuestNames(invitation.guests) + " " +
         (invitation.guests.length === 1 ? "is" : "are") +
         " invited to the wedding of Sarah & Sebastian Ortiz.";
@@ -1161,7 +1159,7 @@
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      if (!invitation || !form.reportValidity()) return;
+      if (submitting || !invitation || !form.reportValidity()) return;
 
       const responses = invitation.guests.map((name, index) => {
         const attending = document.getElementById("attending-" + index + "-yes").checked;
@@ -1170,6 +1168,8 @@
       });
       const website = form.elements.website.value || "";
 
+      submitting = true;
+      submitButton.disabled = true;
       setStatus("Sending…", "loading");
       try {
         const response = await fetch(RSVP_API_URL, {
@@ -1177,7 +1177,6 @@
           headers: { "Content-Type": "text/plain;charset=utf-8" },
           body: JSON.stringify({
             invite: inviteCode,
-            email: emailEl.value.trim(),
             responses,
             notes: notesEl.value.trim(),
             website
@@ -1192,6 +1191,9 @@
         setStatus("Thank you — your RSVP has been sent.", "success");
       } catch (error) {
         setStatus("Error sending RSVP. Please try again.", "error");
+      } finally {
+        submitting = false;
+        submitButton.disabled = false;
       }
     });
 
