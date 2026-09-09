@@ -48,8 +48,8 @@
       z-index:2000;
       display:grid;
       place-items:start center;
-      overflow:auto;
-      background:#e9e3da;
+      overflow:hidden;
+      background:radial-gradient(ellipse at 50% 35%, #f2eee7 0%, #e9e3da 65%, #e1d9cd 100%);
       opacity:1;
       transition:opacity .6s ease, visibility .6s ease;
     }
@@ -74,41 +74,50 @@
       display:grid;
       place-items:center;
       width:min(690px, calc(100vw - 36px));
-      min-height:100svh;
-      min-height:100dvh;
+      height:100svh;
+      grid-template-rows:minmax(0, 1fr);
       padding:calc(24px + env(safe-area-inset-top)) 0 calc(84px + env(safe-area-inset-bottom));
     }
+    /* A fixed sibling stack keeps the paper inside the pocket until it clears.
+       Only the two flap faces use 3D; no animated z-index or shared 3D scene. */
     .envelope-scene{
+      --envelope-height:clamp(210px, 54vw, 290px);
+      --letter-lift:clamp(90px, 20vw, 130px);
+      --envelope-drop:clamp(250px, 58vw, 340px);
       position:relative;
-      width:min(620px, 100%);
-      padding:24px 0 clamp(70px,14vw,100px);
-      perspective:1400px;
+      width:min(580px, 100%);
+      display:grid;
+      place-items:center;
+      transform:scale(var(--scene-scale, 1));
     }
     .envelope-letter{
       position:relative;
       z-index:2;
-      width:74%;
+      width:76%;
       margin:0 auto;
       display:grid;
       gap:clamp(16px,3vw,22px);
       padding:clamp(28px,5vw,38px) clamp(24px,4vw,36px);
       border:1px solid rgba(20,20,20,.2);
-      background:var(--card);
-      box-shadow:0 16px 34px rgba(20,20,20,.14);
+      background:linear-gradient(115deg, #fffdf9, #faf7f1 65%, #f4eee5);
+      box-shadow:0 1px 2px rgba(54,40,24,.12), 0 14px 35px rgba(54,40,24,.12), inset 0 0 0 5px rgba(255,255,255,.35);
       color:var(--ink);
       font-family:"Cormorant Garamond", serif;
       text-align:center;
-      transform:translateY(35%) scale(.96);
-      transform-origin:center bottom;
-      opacity:0;
+      transform:translateY(0) scale(var(--letter-start-scale, .54));
+      transform-origin:center;
     }
+    .envelope-reveal:not(.is-opening) .envelope-letter{visibility:hidden}
+    .envelope-reveal.uses-fallback-font .envelope-letter,
+    .envelope-reveal.uses-fallback-font .envelope-letter h2,
+    .envelope-reveal.uses-fallback-font .envelope-seal{font-family:Georgia, serif}
     .envelope-letter::before,
     .envelope-letter::after{
       content:"";
       position:absolute;
       width:20px;
       height:20px;
-      border-color:rgba(20,20,20,.2);
+      color:rgba(95,77,54,.5);
       pointer-events:none;
     }
     .envelope-letter::before{
@@ -151,95 +160,116 @@
       margin:0 auto;
       padding-top:18px;
       border-top:1px solid var(--line);
-      font-family:"Cormorant Garamond", serif;
       font-size:clamp(1.25rem,3.1vw,1.65rem);
       line-height:1.35;
     }
     .envelope{
       position:absolute;
+      top:50%;
       right:0;
-      bottom:0;
       left:0;
-      z-index:3;
-      height:63%;
-      filter:drop-shadow(0 14px 18px rgba(20,20,20,.12));
+      height:var(--envelope-height);
+      transform:translateY(-50%);
+      pointer-events:none;
     }
     .envelope-back{
-      position:absolute;
-      inset:0;
-      background:#d4cabc;
+      z-index:0;
+      background:linear-gradient(180deg, #bbae9b, #d3c7b5 38%, #ded3c3);
+      border:1px solid rgba(110,88,61,.16);
+      box-shadow:0 2px 3px rgba(54,40,24,.08), 0 18px 35px rgba(54,40,24,.12);
     }
     .envelope-front{
+      z-index:3;
+      background:linear-gradient(145deg, #e9e0d2, #d9cdba 58%, #e7ddcf);
+      clip-path:polygon(0 0, 50% 48%, 100% 0, 100% 100%, 0 100%);
+    }
+    .envelope-front::before{
+      content:"";
       position:absolute;
       inset:0;
-      z-index:3;
-      background:#e0d7ca;
-      clip-path:polygon(0 0, 50% 48%, 100% 0, 100% 100%, 0 100%);
+      background:linear-gradient(180deg, #d8cbb8 35%, #e9e1d4 100%);
+      clip-path:polygon(0 100%, 50% 44%, 100% 100%);
     }
     .envelope-front::after{
       content:"";
       position:absolute;
       inset:0;
       border:1px solid rgba(20,20,20,.12);
-      clip-path:polygon(0 0, 50% 48%, 100% 0, 100% 100%, 0 100%);
     }
+    .envelope-flap-layer{perspective:1200px; perspective-origin:50% 0}
+    .envelope-flap-layer-back{z-index:1}
+    .envelope-flap-layer-front{z-index:4}
     .envelope-flap{
       position:absolute;
-      top:0;
-      right:0;
-      left:0;
-      z-index:4;
+      inset:0 0 auto;
       height:61%;
-      background:#ece4d9;
-      clip-path:polygon(0 0, 100% 0, 50% 100%);
       transform-origin:top center;
       transform:rotateX(0deg);
-      backface-visibility:hidden;
+      transform-style:preserve-3d;
     }
+    .envelope-flap-face{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(170deg, #f0e9dd, #e3d8c7);
+      clip-path:polygon(0 0, 100% 0, 50% 100%);
+      backface-visibility:hidden;
+      -webkit-backface-visibility:hidden;
+    }
+    .envelope-flap-layer-back .envelope-flap-face{
+      background:linear-gradient(180deg, #dfd3c1, #c8baa4);
+      transform:rotateY(180deg);
+    }
+    .envelope-seal-layer{z-index:5}
     .envelope-seal{
       position:absolute;
-      top:50%;
+      top:55%;
       left:50%;
-      z-index:5;
       display:grid;
       width:58px;
       aspect-ratio:1;
       place-items:center;
       border:1px solid rgba(255,255,255,.72);
       border-radius:50%;
-      background:var(--ink);
-      box-shadow:0 4px 12px rgba(20,20,20,.25);
+      background:radial-gradient(circle at 32% 24%, #494239, #26211c 70%);
+      box-shadow:0 3px 5px rgba(42,31,20,.24), 0 7px 14px rgba(42,31,20,.12), inset 0 0 0 4px #302a23, inset 0 0 0 5px rgba(255,241,212,.25);
+      text-shadow:0 1px 1px #000;
       color:#f5f0e8;
       font-family:"Cormorant Garamond", serif;
       font-size:1.55rem;
       transform:translate(-50%, -50%);
     }
     .envelope-reveal.is-opening .envelope-flap{
-      z-index:1;
-      animation:open-envelope .8s cubic-bezier(.3,.8,.25,1) .35s forwards;
+      animation:open-envelope 900ms cubic-bezier(.4,0,.2,1) 300ms both;
     }
     .envelope-reveal.is-opening .envelope-seal{
-      animation:release-seal .32s ease .43s forwards;
+      animation:release-seal 260ms cubic-bezier(.4,0,1,1) 160ms both;
     }
     .envelope-reveal.is-opening .envelope-letter{
-      animation:raise-letter 1.65s cubic-bezier(.2,.76,.24,1) .9s forwards;
+      animation:raise-letter 2400ms linear 880ms both;
+    }
+    .envelope-reveal.is-opening .envelope{
+      animation:lower-envelope 1760ms cubic-bezier(.4,0,.2,1) 1080ms both;
     }
     @keyframes open-envelope{
       to{transform:rotateX(-178deg)}
     }
     @keyframes release-seal{
-      to{transform:translate(-50%, -50%) scale(.72); opacity:0}
+      to{transform:translate(-50%, -45%) scale(.88); opacity:0}
     }
     @keyframes raise-letter{
-      0%{z-index:2; transform:translateY(35%) scale(.96); opacity:0}
-      35%{z-index:2; transform:translateY(20%) scale(.98); opacity:1}
-      36%{z-index:4}
-      100%{z-index:4; transform:translateY(0) scale(1); opacity:1}
+      0%{transform:translateY(0) scale(var(--letter-start-scale, .54)); animation-timing-function:cubic-bezier(.4,0,.2,1)}
+      48%{transform:translateY(calc(-1 * var(--letter-lift))) scale(.66); animation-timing-function:cubic-bezier(.22,.68,.2,1)}
+      100%{transform:translateY(0) scale(1)}
+    }
+    @keyframes lower-envelope{
+      0%{transform:translateY(-50%); opacity:1}
+      55%{opacity:1}
+      100%{transform:translateY(calc(-50% + var(--envelope-drop))); opacity:0}
     }
     .reveal-skip{
-      position:absolute;
-      right:22px;
-      bottom:22px;
+      position:fixed;
+      right:max(22px, env(safe-area-inset-right));
+      bottom:max(22px, env(safe-area-inset-bottom));
       z-index:2;
       min-height:44px;
       padding:9px 13px;
@@ -833,9 +863,10 @@
       .envelope-reveal-inner{width:calc(100% - 22px)}
       .envelope-letter{width:88%}
       .envelope-seal{width:50px; font-size:1.3rem}
-      .reveal-skip{right:12px; bottom:14px}
+      .reveal-skip{right:max(12px, env(safe-area-inset-right)); bottom:max(14px, env(safe-area-inset-bottom))}
     }
     @media (prefers-reduced-motion: reduce){
+      .envelope-reveal,
       .envelope-reveal *,
       .envelope-reveal::before{
         animation-delay:0ms !important;
@@ -856,10 +887,15 @@
           <p class="envelope-copy" id="envelopeCopy">invite you to share in the celebration of their marriage</p>
           <div class="envelope-date" id="envelopeDate">Thursday 4th March 2027<br>at 4:00pm</div>
         </article>
-        <div class="envelope" aria-hidden="true">
-          <div class="envelope-back"></div>
-          <div class="envelope-front"></div>
-          <div class="envelope-flap"></div>
+        <div class="envelope envelope-back" aria-hidden="true"></div>
+        <div class="envelope envelope-flap-layer envelope-flap-layer-back" aria-hidden="true">
+          <div class="envelope-flap"><div class="envelope-flap-face"></div></div>
+        </div>
+        <div class="envelope envelope-front" aria-hidden="true"></div>
+        <div class="envelope envelope-flap-layer envelope-flap-layer-front" aria-hidden="true">
+          <div class="envelope-flap"><div class="envelope-flap-face"></div></div>
+        </div>
+        <div class="envelope envelope-seal-layer" aria-hidden="true">
           <div class="envelope-seal">S&amp;S</div>
         </div>
       </div>
@@ -1001,42 +1037,128 @@
     let invitation = null;
     let submitting = false;
     let revealTimer;
+    let revealWatchdog;
+    let revealDismissTimer;
+    let revealStartFrame;
     let revealFinished = false;
+    const revealMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     function setPageInert(isInert) {
       pageContent.forEach((element) => { element.inert = isInert; });
     }
 
-    function finishEnvelopeReveal() {
-      if (revealFinished || envelopeReveal.hidden) return;
-      revealFinished = true;
-      window.clearTimeout(revealTimer);
-      envelopeReveal.classList.add("is-dismissing");
-      window.setTimeout(() => {
-        envelopeReveal.hidden = true;
-        envelopeReveal.setAttribute("aria-hidden", "true");
-        document.body.classList.remove("reveal-lock");
-        setPageInert(false);
-        document.querySelector(".nav a")?.focus({ preventScroll: true });
-      }, 620);
+    function completeEnvelopeReveal() {
+      const restoreFocus = envelopeReveal.contains(document.activeElement) && !document.hidden;
+      window.clearTimeout(revealDismissTimer);
+      envelopeReveal.hidden = true;
+      envelopeReveal.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("reveal-lock");
+      setPageInert(false);
+      if (restoreFocus) document.querySelector(".nav a")?.focus({ preventScroll: true });
     }
 
-    function startEnvelopeReveal() {
-      if (!inviteCode) return;
+    function finishEnvelopeReveal(immediate = false) {
+      if (envelopeReveal.hidden) return;
+      if (revealFinished) {
+        if (immediate) completeEnvelopeReveal();
+        return;
+      }
+      revealFinished = true;
+      revealResizeObserver.disconnect();
+      window.cancelAnimationFrame(revealStartFrame);
+      window.clearTimeout(revealTimer);
+      window.clearTimeout(revealWatchdog);
+      if (immediate || revealMotion.matches) {
+        completeEnvelopeReveal();
+        return;
+      }
+      envelopeReveal.classList.add("is-dismissing");
+      revealDismissTimer = window.setTimeout(completeEnvelopeReveal, 650);
+    }
+
+    envelopeReveal.addEventListener("transitionend", (event) => {
+      if (event.target === envelopeReveal && event.propertyName === "opacity" && revealFinished) {
+        completeEnvelopeReveal();
+      }
+    });
+    envelopeReveal.querySelector(".envelope-letter").addEventListener("animationend", (event) => {
+      if (event.animationName !== "raise-letter" || revealFinished) return;
+      window.clearTimeout(revealWatchdog);
+      // Leave the fully settled invitation readable before the page dissolve.
+      revealTimer = window.setTimeout(() => finishEnvelopeReveal(), 1700);
+    });
+
+    function sizeEnvelopeScene() {
+      const scene = envelopeReveal.querySelector(".envelope-scene");
+      const letter = scene.querySelector(".envelope-letter");
+      const inner = envelopeReveal.querySelector(".envelope-reveal-inner");
+      const envelopeHeight = scene.querySelector(".envelope-back").offsetHeight;
+      const innerStyle = getComputedStyle(inner);
+      const availableHeight = inner.clientHeight - parseFloat(innerStyle.paddingTop) - parseFloat(innerStyle.paddingBottom);
+      // Reserve the maximum 130px lift and unfolded flap, including landscape.
+      const halfHeight = Math.max(letter.offsetHeight / 2, envelopeHeight * 1.15, letter.offsetHeight * .33 + 130);
+      scene.style.setProperty("--scene-scale", Math.min(1, availableHeight / (halfHeight * 2 + 24)));
+      scene.style.setProperty("--letter-start-scale", Math.min(.54, (envelopeHeight - 24) / letter.offsetHeight));
+    }
+
+    const revealResizeObserver = new ResizeObserver(() => {
+      if (!envelopeReveal.hidden && !revealFinished) sizeEnvelopeScene();
+    });
+
+    async function startEnvelopeReveal() {
+      if (!inviteCode || revealMotion.matches || revealFinished) return;
+      if (document.hidden) {
+        document.addEventListener("visibilitychange", function beginWhenVisible() {
+          if (document.hidden) return;
+          document.removeEventListener("visibilitychange", beginWhenVisible);
+          startEnvelopeReveal();
+        });
+        return;
+      }
       envelopeReveal.hidden = false;
       envelopeReveal.setAttribute("aria-hidden", "false");
       document.body.classList.add("reveal-lock");
       setPageInert(true);
+      sizeEnvelopeScene();
       skipRevealButton.focus({ preventScroll: true });
-      window.requestAnimationFrame(() => envelopeReveal.classList.add("is-opening"));
 
-      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      revealTimer = window.setTimeout(finishEnvelopeReveal, reducedMotion ? 120 : 5000);
+      // Keep a slow font swap from changing the paper's size during its flight.
+      let fontTimer;
+      const fontsLoaded = await Promise.race([
+        Promise.all([
+          document.fonts.load('400 20px "Cormorant Garamond"'),
+          document.fonts.load('500 60px "Cormorant Garamond"')
+        ]).then((fonts) => fonts.every((faces) => faces.length > 0)).catch(() => false),
+        new Promise((resolve) => { fontTimer = window.setTimeout(() => resolve(false), 700); })
+      ]);
+      window.clearTimeout(fontTimer);
+      if (revealFinished) return;
+      envelopeReveal.classList.toggle("uses-fallback-font", !fontsLoaded);
+      sizeEnvelopeScene();
+      revealResizeObserver.observe(envelopeReveal.querySelector(".envelope-reveal-inner"));
+      revealStartFrame = window.requestAnimationFrame(() => {
+        if (revealFinished) return;
+        envelopeReveal.classList.add("is-opening");
+        revealWatchdog = window.setTimeout(() => finishEnvelopeReveal(), 8000);
+      });
     }
 
-    skipRevealButton.addEventListener("click", finishEnvelopeReveal);
+    skipRevealButton.addEventListener("click", () => finishEnvelopeReveal());
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") finishEnvelopeReveal();
+      if (envelopeReveal.hidden) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        finishEnvelopeReveal();
+      } else if (event.key === "Tab") {
+        event.preventDefault();
+        skipRevealButton.focus({ preventScroll: true });
+      }
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden && !envelopeReveal.hidden) finishEnvelopeReveal(true);
+    });
+    revealMotion.addEventListener("change", (event) => {
+      if (event.matches) finishEnvelopeReveal(true);
     });
 
     function setStatus(message, state) {
