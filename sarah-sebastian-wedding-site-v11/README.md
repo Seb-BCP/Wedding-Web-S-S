@@ -1,5 +1,32 @@
 # Sarah & Sebastian Wedding Website — v6
 
+## RSVP dietary requirements
+
+Each attending guest must enter dietary requirements or allergies, or write `None`.
+The website sends the trimmed answer in `responses[].dietary` alongside that guest's
+name and attendance. Declining guests send an empty dietary answer.
+
+The supplied Apps Script in `google-apps-script.gs` writes one row per guest to
+`RSVPs`, in this column order:
+
+`Timestamp | Invite ID | Guest Name | Attending | Dietary Requirements | Email | Notes`
+
+Dietary answers are stored in column E. Email falls back to the invitation's email
+in `Guests`, so the website does not need to ask for it again. A new submission
+replaces that invitation's previous responses.
+
+Run the form-to-backend checks from this directory:
+
+```sh
+node --test tests/rsvp-dietary.test.cjs
+```
+
+The tests execute the website's submission handler and the supplied Apps Script
+against in-memory sheets. They do not submit real RSVPs or verify the live sheet.
+Pushing this repository updates the website; it does not redeploy Apps Script.
+The supplied backend already supports `responses[].dietary`, so this form update
+does not require a backend change when that script is the deployed version.
+
 Latest changes:
 - removed "The wedding of Sarah & Sebastian"
 - added "The Marriage of Sarah & Sebastian" under the date in a larger traditional serif font

@@ -824,6 +824,11 @@
       outline-offset:2px;
     }
     .dietary-field[hidden]{display:none}
+    .dietary-field label{font-size:.75rem}
+    .dietary-field textarea{min-height:96px}
+    .dietary-field .dietary-help{
+      margin:8px 0 0; color:var(--muted); font-size:.875rem; line-height:1.5;
+    }
     .honeypot{
       position:absolute;
       left:-9999px;
@@ -1283,22 +1288,31 @@
 
       const dietaryField = document.createElement("div");
       dietaryField.className = "field dietary-field";
-      dietaryField.hidden = true;
       const dietaryLabel = document.createElement("label");
       const dietaryId = "dietary-" + index;
       dietaryLabel.htmlFor = dietaryId;
-      dietaryLabel.textContent = "Dietary requirements";
-      const dietary = document.createElement("input");
+      dietaryLabel.textContent = "Dietary requirements or allergies";
+      const dietary = document.createElement("textarea");
       dietary.id = dietaryId;
-      dietary.type = "text";
+      dietary.name = dietaryId;
+      dietary.rows = 3;
+      dietary.maxLength = 500;
       dietary.autocomplete = "off";
-      dietary.disabled = true;
-      dietaryField.append(dietaryLabel, dietary);
+      dietary.placeholder = "e.g. vegetarian, gluten-free, nut allergy, or None";
+      const dietaryHelp = document.createElement("p");
+      dietaryHelp.id = dietaryId + "-help";
+      dietaryHelp.className = "dietary-help";
+      dietaryHelp.textContent = 'For attending guests. Enter "None" if you have no dietary requirements.';
+      dietary.setAttribute("aria-describedby", dietaryHelp.id);
+      dietary.addEventListener("input", () => dietary.setCustomValidity(""));
+      dietaryField.append(dietaryLabel, dietary, dietaryHelp);
 
       attendanceField.addEventListener("change", () => {
         const isAttending = document.getElementById("attending-" + index + "-yes").checked;
         dietaryField.hidden = !isAttending;
         dietary.disabled = !isAttending;
+        dietary.required = isAttending;
+        dietary.setCustomValidity("");
         if (!isAttending) dietary.value = "";
       });
 
@@ -1345,7 +1359,16 @@
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      if (submitting || !invitation || !form.reportValidity()) return;
+      if (submitting || !invitation) return;
+
+      invitation.guests.forEach((name, index) => {
+        const attending = document.getElementById("attending-" + index + "-yes").checked;
+        const dietary = document.getElementById("dietary-" + index);
+        dietary.setCustomValidity(attending && !dietary.value.trim()
+          ? 'Please enter dietary requirements or write "None".'
+          : "");
+      });
+      if (!form.reportValidity()) return;
 
       const responses = invitation.guests.map((name, index) => {
         const attending = document.getElementById("attending-" + index + "-yes").checked;
