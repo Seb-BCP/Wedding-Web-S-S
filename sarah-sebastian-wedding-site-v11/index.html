@@ -19,7 +19,7 @@
   <meta name="twitter:image" content="assets/share-preview.jpg" />
 
   <link rel="preload" as="image" href="assets/hero-proposal.jpg" fetchpriority="high">
-  <link rel="preload" as="image" href="assets/invitation-ivory-paper.webp">
+  <link rel="preload" as="image" href="assets/invitation-stationery-red.png" fetchpriority="high">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
@@ -52,261 +52,161 @@
       inset:0;
       z-index:2000;
       display:grid;
-      place-items:start center;
+      place-items:center;
       overflow:hidden;
-      background:transparent;
+      isolation:isolate;
+      background:#efe9df;
       outline:none;
       opacity:1;
       transition:opacity .6s ease, visibility .6s ease;
     }
     .envelope-reveal[hidden]{display:none}
-    .envelope-photo{
-      position:absolute;
-      inset:0;
-      overflow:hidden;
-      background:#292b23;
-    }
+    .envelope-photo{position:absolute; inset:0; overflow:hidden; background:#292b23}
     .envelope-photo img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      object-position:center 72%;
-      transform:scale(1.08);
+      width:100%; height:100%; object-fit:cover;
+      object-position:center 72%; transform:scale(1.08);
     }
     .envelope-photo::after{
-      content:"";
-      position:absolute;
-      inset:0;
+      content:""; position:absolute; inset:0;
       background:linear-gradient(180deg, rgba(15,15,15,.18), rgba(15,15,15,.38));
     }
     .envelope-reveal::before{
-      content:"";
-      position:absolute;
-      z-index:1;
-      inset:0;
-      background:radial-gradient(ellipse at 40% 30%, #f4f0e9, #eae4da 70%, #ddd5c8);
+      content:""; position:absolute; z-index:1; inset:0;
+      background:radial-gradient(ellipse at 40% 30%, #f5f0e8, #eee7dd 72%, #e8e0d4);
       pointer-events:none;
     }
     .envelope-reveal.is-opening.is-photo-ready::before{
-      animation:reveal-proposal 1700ms cubic-bezier(.4,0,.2,1) var(--photo-delay, 1300ms) both;
+      animation:reveal-proposal 1400ms ease var(--photo-delay, 650ms) both;
     }
-    @keyframes reveal-proposal{
-      from{opacity:1}
-      to{opacity:0}
+    .envelope-reveal.is-dismissing{opacity:0; visibility:hidden; pointer-events:none}
+
+    /* Preserve the supplied stationery photograph and its classic red wax seal. */
+    .envelope-opener{
+      position:absolute; z-index:3; left:50%; top:50%;
+      width:min(146vw, 133svh, 1448px);
+      aspect-ratio:4 / 3;
+      padding:0; border:0; border-radius:0;
+      color:#201c18; background:transparent;
+      transform:translate(-50%, -50%);
+      cursor:pointer; -webkit-tap-highlight-color:transparent;
+      touch-action:manipulation;
+      container-type:inline-size;
     }
-    .envelope-reveal.is-dismissing{
-      opacity:0;
-      visibility:hidden;
+    .envelope-artwork{
+      width:100%; height:100%; object-fit:contain;
+      mask-image:radial-gradient(ellipse 66% 70% at center, #000 60%, transparent 100%);
+      -webkit-mask-image:radial-gradient(ellipse 66% 70% at center, #000 60%, transparent 100%);
+      user-select:none; pointer-events:none;
+    }
+    .envelope-address{
+      position:absolute; top:36.8%; left:24%; width:52%;
+      display:none; flex-direction:column; align-items:center;
+      font-family:"Cormorant Garamond", Georgia, serif;
+      text-transform:uppercase;
       pointer-events:none;
     }
-    .envelope-reveal-inner{
-      position:relative;
-      z-index:2;
-      display:grid;
-      place-items:center;
-      width:min(690px, calc(100vw - 36px));
-      height:100svh;
-      grid-template-rows:minmax(0, 1fr);
-      padding:calc(24px + env(safe-area-inset-top)) 0 calc(84px + env(safe-area-inset-bottom));
+    .envelope-names{
+      display:block; margin:0;
+      font-size:clamp(1.125rem, 2.9cqw, 2.625rem);
+      font-weight:500; letter-spacing:.18em; line-height:1.4;
     }
-    /* A fixed sibling stack keeps the paper inside the pocket until it clears.
-       Only the two flap faces use 3D; no animated z-index or shared 3D scene. */
+    .envelope-names span{display:block; white-space:nowrap}
+    .envelope-rule{
+      display:block; width:8.4%; height:1px;
+      margin:3.5% auto 2.4%; background:currentColor; opacity:.65;
+    }
+    .envelope-prompt{
+      font-size:clamp(.75rem, 1.6cqw, 1.45rem);
+      font-weight:500; letter-spacing:.2em; line-height:1.4;
+    }
+    .envelope-prompt-touch{display:none}
+    .envelope-opener:focus-visible{outline:none}
+    .envelope-opener:focus-visible::after{
+      content:""; position:absolute; left:44.4%; top:61.3%; width:11.2%; aspect-ratio:1;
+      border:2px solid #8c201e; border-radius:50%; box-shadow:0 0 0 5px #f5f0e8;
+    }
+    .envelope-open-caption{display:none}
+    @media (max-width:600px) and (orientation:portrait){
+      .envelope-open-caption{
+        display:block; position:absolute; top:96%; width:100%;
+        font-family:"Cormorant Garamond", Georgia, serif;
+        font-size:.875rem; font-weight:500; letter-spacing:.18em; text-transform:uppercase;
+      }
+    }
+    @media (hover:hover){
+      .envelope-opener:hover .envelope-artwork{filter:brightness(1.015)}
+    }
+    @media (pointer:coarse){
+      .envelope-prompt-click{display:none}
+      .envelope-prompt-touch{display:inline}
+    }
+    .envelope-reveal.has-artwork-error .envelope-artwork{visibility:hidden}
+    .envelope-reveal.has-artwork-error .envelope-address{
+      display:flex; top:22%; left:21%; width:58%; min-height:48%; justify-content:center;
+      padding:5%; background:#f9f5ed; box-shadow:0 14px 45px #352a1b26;
+    }
+
+    .envelope-reveal-inner{
+      position:relative; z-index:2;
+      display:grid; place-items:center;
+      width:min(620px, calc(100vw - 32px)); height:100svh;
+      padding:calc(24px + env(safe-area-inset-top)) 0 calc(24px + env(safe-area-inset-bottom));
+      pointer-events:none;
+    }
     .envelope-scene{
       --paper-texture:url("assets/invitation-ivory-paper.webp");
-      --envelope-height:clamp(208px, 60vw, 350px);
-      --letter-lift:clamp(90px, 20vw, 130px);
-      --envelope-drop:clamp(250px, 58vw, 340px);
-      position:relative;
-      width:min(580px, 100%);
-      display:grid;
-      place-items:center;
+      position:relative; width:100%;
       transform:scale(var(--scene-scale, 1));
     }
     .envelope-letter{
-      position:relative;
-      z-index:2;
-      width:76%;
-      margin:0 auto;
-      display:grid;
-      gap:clamp(18px,3vw,24px);
-      padding:clamp(28px,5vw,38px) clamp(24px,4vw,36px);
-      border:1px solid rgba(194,181,158,.3);
-      border-radius:2px 1px 3px 1px;
+      position:relative; width:84%; margin:0 auto;
+      display:grid; gap:clamp(18px, 3vw, 24px);
+      padding:clamp(28px, 5vw, 40px) clamp(24px, 4vw, 38px);
+      border:1px solid #c2b59e4d; border-radius:2px 1px 3px 1px;
       background-color:#f6f1e7;
-      background-image:linear-gradient(115deg, rgba(255,255,255,.24), rgba(242,233,214,.08)), var(--paper-texture);
+      background-image:linear-gradient(115deg, #ffffff3d, #f2e9d614), var(--paper-texture);
       background-size:100% 100%, 600px 600px;
-      box-shadow:0 1px 2px rgba(54,40,24,.14), 0 18px 42px rgba(30,24,15,.2), inset 0 0 0 1px rgba(255,255,255,.65);
-      color:var(--ink);
-      font-family:"Cormorant Garamond", serif;
-      text-align:center;
-      transform:translateY(0) scale(var(--letter-start-scale, .54));
-      transform-origin:center;
+      box-shadow:0 1px 2px #36281824, 0 18px 42px #1e180f33, inset 0 0 0 1px #ffffffa6;
+      color:var(--ink); font-family:"Cormorant Garamond", Georgia, serif; text-align:center;
     }
     .envelope-reveal:not(.is-opening) .envelope-letter{visibility:hidden}
-    .envelope-reveal.uses-fallback-font .envelope-letter,
-    .envelope-reveal.uses-fallback-font .envelope-letter h2,
-    .envelope-reveal.uses-fallback-font .envelope-seal{font-family:Georgia, serif}
-    .envelope-letter .envelope-crest{
-      width:64px;
-      height:64px;
-      margin:0 auto -4px;
-      object-fit:contain;
-    }
-    .envelope-letter::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      border:1px solid rgba(255,255,255,.58);
-      box-shadow:inset 0 0 2px rgba(255,255,255,.85);
-      border-radius:inherit;
-      pointer-events:none;
-    }
-    .envelope-letter .envelope-kicker{
-      margin:0;
-      letter-spacing:.04em;
-      font-size:clamp(.95rem,2.8vw,1.1rem);
-      line-height:1.3;
-      color:var(--muted);
-    }
+    .envelope-letter .envelope-crest{width:64px; height:64px; margin:0 auto -4px; object-fit:contain}
+    .envelope-letter .envelope-kicker{margin:0; font-size:clamp(1rem, 2.8vw, 1.1rem); line-height:1.3; color:var(--muted)}
     .envelope-letter h2{
-      margin:0;
-      font-family:"Cormorant Garamond", serif;
-      font-size:clamp(1.3rem,3.8vw,1.95rem);
-      letter-spacing:.13em;
-      text-transform:uppercase;
-      font-weight:500;
-      line-height:1.5;
+      margin:0; font-family:inherit; font-size:clamp(1.4rem, 3.8vw, 2rem);
+      letter-spacing:.13em; text-transform:uppercase; font-weight:500; line-height:1.5;
     }
     .envelope-letter h2 span{display:block; text-wrap:balance}
-    .envelope-letter .envelope-copy{
-      margin:0 auto;
-      max-width:300px;
-      font-size:clamp(1.12rem,3vw,1.3rem);
-      line-height:1.3;
-      text-wrap:balance;
+    .envelope-letter .envelope-copy{margin:0 auto; max-width:300px; font-size:clamp(1.12rem, 3vw, 1.3rem); line-height:1.3; text-wrap:balance}
+    .envelope-letter .envelope-date{margin:0 auto; padding-top:18px; border-top:1px solid var(--line); font-size:clamp(1.18rem, 3.1vw, 1.4rem); line-height:1.35}
+    .envelope-letter .envelope-dress-code{
+      margin:0; font-size:1rem; letter-spacing:.06em; line-height:1.4;
     }
-    .envelope-letter .envelope-date{
-      display:block;
-      margin:0 auto;
-      padding-top:18px;
-      border-top:1px solid var(--line);
-      font-size:clamp(1.18rem,3.1vw,1.4rem);
-      line-height:1.35;
+    .letter-continue{
+      margin:0 auto; padding:10px 0 0; border:0; border-top:1px solid var(--line);
+      background:none; color:var(--ink); font-family:inherit;
+      font-size:.9375rem; line-height:1.5; letter-spacing:.04em; cursor:pointer;
     }
-    .envelope{
-      position:absolute;
-      top:50%;
-      right:0;
-      left:0;
-      height:var(--envelope-height);
-      transform:translateY(-50%);
-      pointer-events:none;
+    /* The button's hit area covers the paper while its label stays at the end. */
+    .letter-continue::after{content:""; position:absolute; inset:0}
+    .letter-continue:focus-visible{outline:1px solid #8c201e; outline-offset:5px}
+    .letter-continue:hover{text-decoration:underline; text-underline-offset:.25em}
+    .envelope-reveal.is-letter-ready .envelope-opener{visibility:hidden}
+    .envelope-reveal.is-opening.is-letter-ready .envelope-letter{
+      animation:none; opacity:1; transform:none; pointer-events:auto;
     }
-    .envelope-back{
-      z-index:0;
-      background-color:#dcd3c2;
-      background-image:linear-gradient(180deg, rgba(128,108,75,.25), rgba(166,149,120,.08) 60%), var(--paper-texture);
-      background-size:100% 100%, 600px 600px;
-      border:1px solid rgba(110,88,61,.16);
-      box-shadow:0 2px 3px rgba(54,40,24,.08), 0 18px 35px rgba(54,40,24,.12);
-    }
-    .envelope-front{
-      z-index:3;
-      background-color:#eee7db;
-      background-image:linear-gradient(145deg, rgba(255,255,255,.14), rgba(144,121,83,.12) 58%, rgba(255,255,255,.2)), var(--paper-texture);
-      background-size:100% 100%, 600px 600px;
-      clip-path:polygon(0 0, 50% 48%, 100% 0, 100% 100%, 0 100%);
-    }
-    .envelope-front::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background-image:linear-gradient(180deg, rgba(145,125,91,.12) 35%, rgba(255,255,255,.13)), var(--paper-texture);
-      background-size:100% 100%, 600px 600px;
-      clip-path:polygon(0 100%, 50% 44%, 100% 100%);
-    }
-    .envelope-front::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      border:1px solid rgba(20,20,20,.12);
-    }
-    .envelope-flap-layer{perspective:1200px; perspective-origin:50% 0}
-    .envelope-flap-layer-back{z-index:1}
-    .envelope-flap-layer-front{z-index:4}
-    .envelope-flap{
-      position:absolute;
-      inset:0 0 auto;
-      height:61%;
-      transform-origin:top center;
-      transform:rotateX(0deg);
-      transform-style:preserve-3d;
-    }
-    .envelope-flap-face{
-      position:absolute;
-      inset:0;
-      background-color:#f4efe5;
-      background-image:linear-gradient(170deg, rgba(255,255,255,.26), rgba(161,138,100,.06)), var(--paper-texture);
-      background-size:100% 100%, 600px 600px;
-      clip-path:polygon(0 0, 100% 0, 50% 100%);
-      backface-visibility:hidden;
-      -webkit-backface-visibility:hidden;
-    }
-    .envelope-flap-layer-back .envelope-flap-face{
-      background-image:linear-gradient(180deg, rgba(174,153,116,.08), rgba(128,107,71,.22)), var(--paper-texture);
-      transform:rotateY(180deg);
-    }
-    .envelope-seal-layer{z-index:5}
-    .envelope-seal{
-      position:absolute;
-      top:55%;
-      left:50%;
-      width:88px;
-      aspect-ratio:1;
-      transform:translate(-50%, -50%);
-    }
-    .envelope-reveal.uses-basic-paper .envelope-scene{--paper-texture:none}
-    .envelope-reveal.uses-basic-paper .envelope-crest,
-    .envelope-reveal.uses-basic-paper .envelope-seal img{visibility:hidden}
-    .envelope-reveal.uses-basic-paper .envelope-seal{
-      background:#e7dfcc;
-      border:1px solid rgba(255,255,255,.7);
-      border-radius:50%;
-      box-shadow:0 3px 8px rgba(64,48,25,.18), inset 0 0 0 4px #ddd3be;
-    }
-    .envelope-seal img{
-      width:100%;
-      height:100%;
-      object-fit:contain;
-      filter:drop-shadow(0 3px 3px rgba(64,48,25,.2));
-    }
-    .envelope-reveal.is-opening .envelope-flap{
-      animation:open-envelope 900ms cubic-bezier(.4,0,.2,1) 300ms both;
-    }
-    .envelope-reveal.is-opening .envelope-seal{
-      animation:release-seal 260ms cubic-bezier(.4,0,1,1) 160ms both;
-    }
-    .envelope-reveal.is-opening .envelope-letter{
-      animation:raise-letter 2400ms linear 880ms both;
-    }
-    .envelope-reveal.is-opening .envelope{
-      animation:lower-envelope 1760ms cubic-bezier(.4,0,.2,1) 1080ms both;
-    }
-    @keyframes open-envelope{
-      to{transform:rotateX(-178deg)}
-    }
-    @keyframes release-seal{
-      to{transform:translate(-50%, -45%) scale(.88); opacity:0}
+    .envelope-reveal.is-opening .envelope-opener{animation:release-stationery 1100ms cubic-bezier(.4,0,.2,1) both; pointer-events:none}
+    .envelope-reveal.is-opening .envelope-letter{animation:raise-letter 1400ms cubic-bezier(.22,.68,.2,1) 150ms both}
+    @keyframes reveal-proposal{from{opacity:1} to{opacity:0}}
+    @keyframes release-stationery{
+      0%{opacity:1; transform:translate(-50%, -50%)}
+      18%{opacity:1; transform:translate(-50%, -49%) scale(.985)}
+      100%{opacity:0; transform:translate(-50%, -36%) scale(.96)}
     }
     @keyframes raise-letter{
-      0%{transform:translateY(0) scale(var(--letter-start-scale, .54)); animation-timing-function:cubic-bezier(.4,0,.2,1)}
-      48%{transform:translateY(calc(-1 * var(--letter-lift))) scale(.66); animation-timing-function:cubic-bezier(.22,.68,.2,1)}
-      100%{transform:translateY(0) scale(1)}
-    }
-    @keyframes lower-envelope{
-      0%{transform:translateY(-50%); opacity:1}
-      55%{opacity:1}
-      100%{transform:translateY(calc(-50% + var(--envelope-drop))); opacity:0}
+      0%, 20%{opacity:0; transform:translateY(45px) scale(.92)}
+      75%{opacity:1; transform:translateY(-8px) scale(1)}
+      100%{opacity:1; transform:translateY(0) scale(1)}
     }
     img{display:block;max-width:100%}
     a{color:inherit}
@@ -382,6 +282,7 @@
       overflow:hidden;
       padding-top:74px;
     }
+    .hero:focus{outline:none}
     .hero-media{
       position:absolute;
       inset:0;
@@ -886,7 +787,6 @@
       .map-badge{transform:scale(.78); transform-origin:left top;}
       .envelope-reveal-inner{width:calc(100% - 22px)}
       .envelope-letter{width:88%; padding-inline:clamp(20px, 6vw, 30px)}
-      .envelope-seal{width:72px}
     }
     @media (prefers-reduced-motion: reduce){
       .nav, .hero-content{transition:none}
@@ -902,8 +802,17 @@
   </style>
 </head>
 <body>
-  <div class="envelope-reveal" id="envelopeReveal" tabindex="-1" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="envelopeTitle" aria-describedby="envelopeCopy envelopeDate">
+  <div class="envelope-reveal" id="envelopeReveal" tabindex="-1" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Sarah and Sebastian Ortiz’s wedding invitation">
     <div class="envelope-photo" aria-hidden="true"><img src="assets/hero-proposal.jpg" alt="" fetchpriority="high"></div>
+    <button class="envelope-opener" id="openInvitation" type="button" aria-label="Open Sarah and Sebastian Ortiz’s wedding invitation">
+      <img class="envelope-artwork" src="assets/invitation-stationery-red.png" width="1448" height="1086" alt="Ivory wedding stationery with a classic red botanical wax seal" fetchpriority="high" draggable="false">
+      <span class="envelope-address" aria-hidden="true">
+        <span class="envelope-names"><span>Sarah &amp;</span><span>Sebastian Ortiz</span></span>
+        <span class="envelope-rule"></span>
+        <span class="envelope-prompt"><span class="envelope-prompt-click">Click</span><span class="envelope-prompt-touch">Tap</span> to open invitation</span>
+      </span>
+      <span class="envelope-open-caption" aria-hidden="true">Open your invitation</span>
+    </button>
     <div class="envelope-reveal-inner">
       <div class="envelope-scene">
         <article class="envelope-letter">
@@ -912,18 +821,9 @@
           <h2 id="envelopeTitle"><span>Sarah &amp;</span><span>Sebastian Ortiz</span></h2>
           <p class="envelope-copy" id="envelopeCopy">invite you to share in the celebration of their marriage</p>
           <div class="envelope-date" id="envelopeDate">Thursday 4th March 2027<br>at 4:00pm</div>
+          <p class="envelope-dress-code">Dress code: formal black tie</p>
+          <button class="letter-continue" id="enterWeddingWebsite" type="button" disabled>Click to go to wedding website</button>
         </article>
-        <div class="envelope envelope-back" aria-hidden="true"></div>
-        <div class="envelope envelope-flap-layer envelope-flap-layer-back" aria-hidden="true">
-          <div class="envelope-flap"><div class="envelope-flap-face"></div></div>
-        </div>
-        <div class="envelope envelope-front" aria-hidden="true"></div>
-        <div class="envelope envelope-flap-layer envelope-flap-layer-front" aria-hidden="true">
-          <div class="envelope-flap"><div class="envelope-flap-face"></div></div>
-        </div>
-        <div class="envelope envelope-seal-layer" aria-hidden="true">
-          <div class="envelope-seal"><img src="assets/invitation-ivory-seal.webp" width="80" height="80" alt=""></div>
-        </div>
       </div>
     </div>
   </div>
@@ -941,7 +841,7 @@
   </nav>
 
   <main>
-    <section class="hero" id="welcome">
+    <section class="hero" id="welcome" tabindex="-1">
       <div class="hero-media">
         <img src="assets/hero-proposal.jpg" alt="Proposal photo of Sarah and Sebastian">
       </div>
@@ -969,6 +869,7 @@
           <div class="date">4th of March 2027</div>
           <div class="location">Immaculate Heart of Mary Parish</div>
           <div class="sub">Scarborough · 4:00pm</div>
+          <div class="sub">Dress code: formal black tie</div>
         </div>
       </div>
     </section>
@@ -983,6 +884,7 @@
           <div class="sub">Crawley</div>
           <div class="sub">Cocktail hour · 6:00pm</div>
           <div class="sub">Dinner and dance to follow</div>
+          <div class="sub">Dress code: formal black tie</div>
         </div>
       </div>
     </section>
@@ -1060,11 +962,12 @@
     const inviteCode = new URLSearchParams(window.location.search).get("invite")?.trim();
     let invitation = null;
     let submitting = false;
-    let revealTimer;
     let revealWatchdog;
     let revealDismissTimer;
-    let revealStartFrame;
     let revealStartedAt;
+    const openInvitationButton = document.getElementById("openInvitation");
+    const letterContinueButton = document.getElementById("enterWeddingWebsite");
+    let letterReady = false;
     let proposalPhotoReady = false;
     let revealFinished = false;
     const revealMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -1080,7 +983,8 @@
       envelopeReveal.setAttribute("aria-hidden", "true");
       document.body.classList.remove("reveal-lock");
       setPageInert(false);
-      if (restoreFocus) document.querySelector(".nav a")?.focus({ preventScroll: true });
+      // Move into the page without focusing (and outlining) the navigation brand.
+      if (restoreFocus) document.getElementById("welcome").focus({ preventScroll: true });
     }
 
     function finishEnvelopeReveal(immediate = false) {
@@ -1091,8 +995,6 @@
       }
       revealFinished = true;
       revealResizeObserver.disconnect();
-      window.cancelAnimationFrame(revealStartFrame);
-      window.clearTimeout(revealTimer);
       window.clearTimeout(revealWatchdog);
       if (immediate || revealMotion.matches) {
         completeEnvelopeReveal();
@@ -1107,24 +1009,28 @@
         completeEnvelopeReveal();
       }
     });
-    envelopeReveal.querySelector(".envelope-letter").addEventListener("animationend", (event) => {
-      if (event.animationName !== "raise-letter" || revealFinished) return;
+    function settleEnvelopeLetter() {
+      if (revealFinished || revealStartedAt === undefined || letterReady) return;
+      letterReady = true;
       window.clearTimeout(revealWatchdog);
-      // Leave the fully settled invitation readable before the page dissolve.
-      revealTimer = window.setTimeout(() => finishEnvelopeReveal(), 2200);
+      envelopeReveal.classList.add("is-letter-ready");
+      letterContinueButton.disabled = false;
+      if (!document.hidden && envelopeReveal.contains(document.activeElement)) {
+        letterContinueButton.focus({ preventScroll: true });
+      }
+    }
+
+    envelopeReveal.querySelector(".envelope-letter").addEventListener("animationend", (event) => {
+      if (event.animationName === "raise-letter") settleEnvelopeLetter();
     });
 
     function sizeEnvelopeScene() {
       const scene = envelopeReveal.querySelector(".envelope-scene");
       const letter = scene.querySelector(".envelope-letter");
       const inner = envelopeReveal.querySelector(".envelope-reveal-inner");
-      const envelopeHeight = scene.querySelector(".envelope-back").offsetHeight;
       const innerStyle = getComputedStyle(inner);
       const availableHeight = inner.clientHeight - parseFloat(innerStyle.paddingTop) - parseFloat(innerStyle.paddingBottom);
-      // Reserve the maximum 130px lift and unfolded flap, including landscape.
-      const halfHeight = Math.max(letter.offsetHeight / 2, envelopeHeight * 1.15, letter.offsetHeight * .33 + 130);
-      scene.style.setProperty("--scene-scale", Math.min(1, availableHeight / (halfHeight * 2 + 24)));
-      scene.style.setProperty("--letter-start-scale", Math.min(.54, (envelopeHeight - 24) / letter.offsetHeight));
+      scene.style.setProperty("--scene-scale", Math.min(1, availableHeight / (letter.offsetHeight + 32)));
     }
 
     const revealResizeObserver = new ResizeObserver(() => {
@@ -1134,13 +1040,28 @@
     function revealProposalPhoto() {
       if (!proposalPhotoReady || revealStartedAt === undefined || revealFinished) return;
       // Keep the planned handoff time, but never dissolve onto an unloaded photo.
-      const remainingDelay = Math.max(0, 1300 - (performance.now() - revealStartedAt));
+      const remainingDelay = Math.max(0, 650 - (performance.now() - revealStartedAt));
       envelopeReveal.style.setProperty("--photo-delay", remainingDelay + "ms");
       envelopeReveal.classList.add("is-photo-ready");
     }
 
-    async function startEnvelopeReveal() {
-      if (!inviteCode || revealMotion.matches || revealFinished) return;
+    function openInvitation() {
+      if (revealFinished || revealStartedAt !== undefined) return;
+      revealStartedAt = performance.now();
+      sizeEnvelopeScene();
+      envelopeReveal.focus({ preventScroll: true });
+      openInvitationButton.inert = true;
+      openInvitationButton.setAttribute("aria-hidden", "true");
+      envelopeReveal.classList.add("is-opening");
+      revealProposalPhoto();
+      // Interrupted or reduced-motion animation still leaves the letter to read.
+      if (revealMotion.matches) settleEnvelopeLetter();
+      else revealWatchdog = window.setTimeout(settleEnvelopeLetter, 6000);
+    }
+
+    function startEnvelopeReveal() {
+      // Direct links to events and RSVP keep their destination immediately usable.
+      if ((window.location.hash && window.location.hash !== "#welcome") || revealFinished) return;
       if (document.hidden) {
         document.addEventListener("visibilitychange", function beginWhenVisible() {
           if (document.hidden) return;
@@ -1149,6 +1070,8 @@
         });
         return;
       }
+      const artwork = envelopeReveal.querySelector(".envelope-artwork");
+      artwork.decode().catch(() => envelopeReveal.classList.add("has-artwork-error"));
       envelopeReveal.querySelector(".envelope-photo img").decode().then(() => {
         proposalPhotoReady = true;
         revealProposalPhoto();
@@ -1158,58 +1081,33 @@
       document.body.classList.add("reveal-lock");
       setPageInert(true);
       sizeEnvelopeScene();
-      envelopeReveal.focus({ preventScroll: true });
-
-      // Bound preparation, then pin fallbacks so late resources never pop in mid-flight.
-      let fontTimer;
-      let assetTimer;
-      const paperImage = new Image();
-      paperImage.src = "assets/invitation-ivory-paper.webp";
-      const paperAssets = [paperImage, ...envelopeReveal.querySelectorAll(".envelope-scene img")];
-      const [fontsLoaded, assetsLoaded] = await Promise.all([
-        Promise.race([
-          Promise.all([
-            document.fonts.load('400 20px "Cormorant Garamond"'),
-            document.fonts.load('500 60px "Cormorant Garamond"')
-          ]).then((fonts) => fonts.every((faces) => faces.length > 0)).catch(() => false),
-          new Promise((resolve) => { fontTimer = window.setTimeout(() => resolve(false), 700); })
-        ]),
-        Promise.race([
-          Promise.all(paperAssets.map((asset) => asset.decode())).then(() => true).catch(() => false),
-          new Promise((resolve) => { assetTimer = window.setTimeout(() => resolve(false), 1800); })
-        ])
-      ]);
-      window.clearTimeout(fontTimer);
-      window.clearTimeout(assetTimer);
-      if (revealFinished) return;
-      envelopeReveal.classList.toggle("uses-fallback-font", !fontsLoaded);
-      envelopeReveal.classList.toggle("uses-basic-paper", !assetsLoaded);
-      sizeEnvelopeScene();
+      openInvitationButton.focus({ preventScroll: true });
       revealResizeObserver.observe(envelopeReveal.querySelector(".envelope-reveal-inner"));
-      revealStartFrame = window.requestAnimationFrame(() => {
-        if (revealFinished) return;
-        revealStartedAt = performance.now();
-        envelopeReveal.classList.add("is-opening");
-        revealProposalPhoto();
-        revealWatchdog = window.setTimeout(() => finishEnvelopeReveal(), 8000);
-      });
+      revealResizeObserver.observe(envelopeReveal.querySelector(".envelope-letter"));
     }
 
+    openInvitationButton.addEventListener("click", openInvitation);
+    letterContinueButton.addEventListener("click", () => {
+      if (letterReady) finishEnvelopeReveal();
+    });
     document.addEventListener("keydown", (event) => {
       if (envelopeReveal.hidden) return;
       if (event.key === "Escape") {
         event.preventDefault();
-        finishEnvelopeReveal();
+        finishEnvelopeReveal(true);
       } else if (event.key === "Tab") {
         event.preventDefault();
-        envelopeReveal.focus({ preventScroll: true });
+        const focusTarget = revealStartedAt === undefined
+          ? openInvitationButton
+          : letterReady ? letterContinueButton : envelopeReveal;
+        focusTarget.focus({ preventScroll: true });
       }
     });
     document.addEventListener("visibilitychange", () => {
-      if (document.hidden && !envelopeReveal.hidden) finishEnvelopeReveal(true);
+      if (document.hidden && revealStartedAt !== undefined && !envelopeReveal.hidden) settleEnvelopeLetter();
     });
     revealMotion.addEventListener("change", (event) => {
-      if (event.matches) finishEnvelopeReveal(true);
+      if (event.matches && revealStartedAt !== undefined) settleEnvelopeLetter();
     });
 
     function setStatus(message, state) {
