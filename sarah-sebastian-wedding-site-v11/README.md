@@ -59,3 +59,6 @@ Files:
 - added the supplied Matilda Bay waterfront photograph beneath the Catalina Room image
 - added the supplied aerial Bunker Bay photograph beneath the ducks image
 - converted both event photo areas into balanced two-image stacks
+
+- matched the envelope invitation letter to the printed invitation (impl-4.pdf): same wording, Cormorant Garamond sizes and letter-spacing scaled to a 5:7 card, italic "together with"
+- removed the divider lines from the letter and kept the olive crest

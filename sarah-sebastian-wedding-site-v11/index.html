@@ -22,7 +22,7 @@
   <link rel="preload" as="image" href="assets/invitation-stationery-red.png" fetchpriority="high">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
     :root{
@@ -126,10 +126,12 @@
       position:relative;
       z-index:2;
       width:76%;
+      aspect-ratio:5 / 7;
+      container-type:inline-size;
       margin:0 auto;
       display:grid;
-      gap:clamp(18px,3vw,24px);
-      padding:clamp(28px,5vw,38px) clamp(24px,4vw,36px);
+      align-content:start;
+      padding:0;
       border:1px solid rgba(194,181,158,.3);
       border-radius:2px 1px 3px 1px;
       background-color:#f6f1e7;
@@ -138,7 +140,9 @@
       box-shadow:0 1px 2px rgba(54,40,24,.14), 0 18px 42px rgba(30,24,15,.2), inset 0 0 0 1px rgba(255,255,255,.65);
       color:var(--ink);
       font-family:"Cormorant Garamond", serif;
+      font-weight:400;
       text-align:center;
+      text-transform:uppercase;
       transform:translateY(0) scale(var(--letter-start-scale, .54));
       transform-origin:center;
     }
@@ -146,10 +150,18 @@
     .envelope-reveal.uses-fallback-font .envelope-letter,
     .envelope-reveal.uses-fallback-font .envelope-letter h2,
     .envelope-reveal.uses-fallback-font .envelope-seal{font-family:Georgia, serif}
+    /* The letter is a 5:7 card. Sizes and spacing are fractions of its width (cqi),
+       measured from the printed invitation PDF (360pt wide): 1pt = 0.2778cqi. */
+    .envelope-letter-inner{
+      display:grid;
+      justify-items:center;
+      width:100%;
+      padding:0 4cqi 11.7cqi;
+    }
     .envelope-letter .envelope-crest{
-      width:64px;
-      height:64px;
-      margin:0 auto -4px;
+      width:12cqi;
+      height:12cqi;
+      margin:5cqi auto 0;
       object-fit:contain;
     }
     .envelope-letter::after{
@@ -161,38 +173,45 @@
       border-radius:inherit;
       pointer-events:none;
     }
-    .envelope-letter .envelope-kicker{
+    .envelope-letter .envelope-line{
       margin:0;
-      letter-spacing:.04em;
-      font-size:clamp(.95rem,2.8vw,1.1rem);
-      line-height:1.3;
-      color:var(--muted);
-    }
-    .envelope-letter h2{
-      margin:0;
-      font-family:"Cormorant Garamond", serif;
-      font-size:clamp(1.3rem,3.8vw,1.95rem);
-      letter-spacing:.13em;
-      text-transform:uppercase;
-      font-weight:500;
-      line-height:1.5;
-    }
-    .envelope-letter h2 span{display:block; text-wrap:balance}
-    .envelope-letter .envelope-copy{
-      margin:0 auto;
-      max-width:300px;
-      font-size:clamp(1.12rem,3vw,1.3rem);
-      line-height:1.3;
+      font-size:2.778cqi;   /* 10pt */
+      line-height:3.75cqi;  /* 13.5pt */
+      letter-spacing:.045em;
       text-wrap:balance;
     }
-    .envelope-letter .envelope-date{
-      display:block;
-      margin:0 auto;
-      padding-top:18px;
-      border-top:1px solid var(--line);
-      font-size:clamp(1.18rem,3.1vw,1.4rem);
-      line-height:1.35;
+    .envelope-letter .envelope-host{line-height:4.167cqi; letter-spacing:.05em}
+    .envelope-letter .envelope-hosts-start{margin-top:4.754cqi}
+    .envelope-letter .envelope-line-italic{font-style:italic}
+    .envelope-letter .envelope-intro{margin-top:-.417cqi}
+    .envelope-letter h2{
+      margin:2.984cqi 0 0;
+      font-family:"Cormorant Garamond", serif;
+      font-size:7.972cqi;   /* 28.7pt */
+      line-height:9.556cqi;
+      letter-spacing:.12em;
+      font-weight:400;
+      white-space:nowrap;
     }
+    .envelope-letter h2 span{display:block}
+    .envelope-letter .envelope-ampersand{
+      margin-top:1.096cqi;
+      font-size:4.444cqi;   /* 16pt */
+      line-height:5.333cqi;
+      letter-spacing:0;
+    }
+    .envelope-letter .envelope-name-second{margin-top:1.515cqi}
+    .envelope-letter .envelope-date{
+      margin:6.706cqi 0 0;
+      font-size:4.056cqi;   /* 14.6pt */
+      line-height:4.861cqi;
+      letter-spacing:.12em;
+      white-space:nowrap;
+    }
+    .envelope-letter .envelope-venue{margin-top:3.139cqi}
+    .envelope-letter .envelope-venue-first{margin-top:6.629cqi}
+    .envelope-letter .envelope-rsvp{margin-top:2.972cqi}
+    .envelope-letter .envelope-attire{margin-top:3cqi}
     .envelope{
       position:absolute;
       top:50%;
@@ -309,13 +328,10 @@
       55%{opacity:1}
       100%{transform:translateY(calc(-50% + var(--envelope-drop))); opacity:0}
     }
-    .envelope-letter .envelope-dress-code{
-      margin:0; font-size:1rem; letter-spacing:.06em; line-height:1.4;
-    }
     .letter-continue{
-      margin:0 auto; padding:10px 0 0; border:0; border-top:1px solid var(--line);
-      background:none; color:var(--ink); font-family:inherit;
-      font-size:.9375rem; line-height:1.5; letter-spacing:.04em; cursor:pointer;
+      margin:6.655cqi auto 0; padding:0; border:0;
+      background:none; color:var(--ink); font-family:inherit; text-transform:inherit;
+      font-size:2.639cqi; line-height:3.75cqi; letter-spacing:.06em; cursor:pointer;
     }
     /* The button's hit area covers the paper while its label stays at the end. */
     .letter-continue::after{content:""; position:absolute; inset:0}
@@ -910,7 +926,7 @@
       .rsvp-photo img{height:400px}
       .map-badge{transform:scale(.78); transform-origin:left top;}
       .envelope-reveal-inner{width:calc(100% - 22px)}
-      .envelope-letter{width:88%; padding-inline:clamp(20px, 6vw, 30px)}
+      .envelope-letter{width:92%}
       .envelope-seal{width:72px}
     }
     @media (prefers-reduced-motion: reduce){
@@ -932,13 +948,20 @@
     <div class="envelope-reveal-inner">
       <div class="envelope-scene">
         <article class="envelope-letter">
-          <img class="envelope-crest" src="assets/invitation-olive-crest.webp" width="64" height="64" alt="" aria-hidden="true">
-          <p class="envelope-kicker">Together with their families</p>
-          <h2 id="envelopeTitle"><span>Sarah &amp;</span><span>Sebastian Ortiz</span></h2>
-          <p class="envelope-copy" id="envelopeCopy">invite you to share in the celebration of their marriage</p>
-          <div class="envelope-date" id="envelopeDate">Thursday 4th March 2027<br>at 4:00pm</div>
-          <p class="envelope-dress-code">Dress code: formal black tie</p>
-          <button class="letter-continue" id="enterWeddingWebsite" type="button" disabled>Click to go to wedding website</button>
+          <div class="envelope-letter-inner">
+            <img class="envelope-crest" src="assets/invitation-olive-crest.webp" width="64" height="64" alt="" aria-hidden="true">
+            <p class="envelope-line envelope-host envelope-hosts-start">Mr &amp; Mrs Couve de Murville</p>
+            <p class="envelope-line envelope-host envelope-line-italic">together with</p>
+            <p class="envelope-line envelope-host">Mr &amp; Mrs Ortiz</p>
+            <p class="envelope-line envelope-host envelope-intro">joyfully invite you to celebrate the marriage of</p>
+            <h2 id="envelopeTitle"><span>Sarah Louise</span><span class="envelope-ampersand">&amp;</span><span class="envelope-name-second">Sebastian Manuel</span></h2>
+            <p class="envelope-date" id="envelopeDate">Thursday 4th March 2027</p>
+            <p class="envelope-line envelope-venue envelope-venue-first">4.00 pm | Immaculate Heart of Mary Parish<br>104 Scarborough Beach Rd, Scarborough</p>
+            <p class="envelope-line envelope-venue">6.00 pm | Matilda Bay Restaurant<br>3 Hackett Dr., Crawley</p>
+            <p class="envelope-line envelope-rsvp">Kindly RSVP by 15 January 2027</p>
+            <p class="envelope-line envelope-attire">Formal attire</p>
+            <button class="letter-continue" id="enterWeddingWebsite" type="button" disabled>Click to go to wedding website</button>
+          </div>
         </article>
         <div class="envelope envelope-back" aria-hidden="true"></div>
         <div class="envelope envelope-flap-layer envelope-flap-layer-back" aria-hidden="true">
