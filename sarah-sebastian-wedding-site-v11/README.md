@@ -62,3 +62,5 @@ Files:
 
 - matched the envelope invitation letter to the printed invitation (impl-4.pdf): same wording, Cormorant Garamond sizes and letter-spacing scaled to a 5:7 card, italic "together with"
 - removed the divider lines from the letter and kept the olive crest
+- gave the invitation letter a white linen paper texture (seamless generated tile, assets/invitation-linen-white.webp)
+- removed the olive crest from the invitation letter
