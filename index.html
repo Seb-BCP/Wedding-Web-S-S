@@ -1,0 +1,1382 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sarah & Sebastian Ortiz — 4 March 2027</title>
+  <meta name="description" content="Join Sarah and Sebastian for their wedding celebration in Perth, Western Australia." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Sarah & Sebastian Ortiz" />
+  <meta property="og:title" content="The Marriage of Sarah & Sebastian" />
+  <meta property="og:description" content="Join us for our wedding celebration in Perth, Western Australia." />
+  <meta property="og:image" content="assets/share-preview.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Sarah and Sebastian proposal with the wedding invitation — 4 March 2027, Perth, Western Australia" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="The Marriage of Sarah & Sebastian" />
+  <meta name="twitter:description" content="Join us for our wedding celebration in Perth, Western Australia." />
+  <meta name="twitter:image" content="assets/share-preview.jpg" />
+
+  <link rel="preload" as="image" href="assets/hero-proposal.jpg" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/invitation-stationery-red.png" fetchpriority="high">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --paper:#f3efe8;
+      --card:#faf8f5;
+      --ink:#141414;
+      --muted:#6d6a65;
+      --line:#d8d1c6;
+      --shadow:0 18px 55px rgba(0,0,0,.06);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--paper);
+      color:var(--ink);
+      font-family:"Libre Baskerville", serif;
+      line-height:1.65;
+    }
+    body.reveal-lock{overflow:hidden}
+    .nav, .hero-content{transition:opacity .65s ease}
+    body.reveal-lock .nav,
+    body.reveal-lock .hero-content{opacity:0; pointer-events:none}
+    .envelope-reveal{
+      position:fixed;
+      inset:0;
+      z-index:2000;
+      display:grid;
+      place-items:start center;
+      overflow:hidden;
+      background:transparent;
+      outline:none;
+      opacity:1;
+      transition:opacity .6s ease, visibility .6s ease;
+    }
+    .envelope-reveal[hidden]{display:none}
+    .envelope-photo{
+      position:absolute;
+      inset:0;
+      overflow:hidden;
+      background:#292b23;
+    }
+    .envelope-photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:center 72%;
+      transform:scale(1.08);
+    }
+    .envelope-photo::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(15,15,15,.18), rgba(15,15,15,.38));
+    }
+    .envelope-reveal::before{
+      content:"";
+      position:absolute;
+      z-index:1;
+      inset:0;
+      background:radial-gradient(ellipse at 40% 30%, #f4f0e9, #eae4da 70%, #ddd5c8);
+      pointer-events:none;
+    }
+    .envelope-reveal.is-opening.is-photo-ready::before{
+      animation:reveal-proposal 1700ms cubic-bezier(.4,0,.2,1) var(--photo-delay, 1300ms) both;
+    }
+    @keyframes reveal-proposal{
+      from{opacity:1}
+      to{opacity:0}
+    }
+    .envelope-reveal.is-dismissing{
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+    }
+    .envelope-reveal-inner{
+      position:relative;
+      z-index:2;
+      display:grid;
+      place-items:center;
+      width:min(690px, calc(100vw - 36px));
+      height:100svh;
+      grid-template-rows:minmax(0, 1fr);
+      padding:calc(24px + env(safe-area-inset-top)) 0 calc(84px + env(safe-area-inset-bottom));
+    }
+    /* A fixed sibling stack keeps the paper inside the pocket until it clears.
+       Only the two flap faces use 3D; no animated z-index or shared 3D scene. */
+    .envelope-scene{
+      --paper-texture:url("assets/invitation-ivory-paper.webp");
+      --envelope-height:clamp(208px, 60vw, 350px);
+      --letter-lift:clamp(90px, 20vw, 130px);
+      --envelope-drop:clamp(250px, 58vw, 340px);
+      position:relative;
+      width:min(580px, 100%);
+      display:grid;
+      place-items:center;
+      transform:scale(var(--scene-scale, 1));
+    }
+    .envelope-letter{
+      position:relative;
+      z-index:2;
+      width:76%;
+      aspect-ratio:5 / 7;
+      container-type:inline-size;
+      margin:0 auto;
+      display:grid;
+      align-content:start;
+      padding:0;
+      border:1px solid rgba(194,181,158,.3);
+      border-radius:2px 1px 3px 1px;
+      background-color:#f6f1e7;
+      background-image:linear-gradient(115deg, rgba(255,255,255,.24), rgba(242,233,214,.08)), var(--paper-texture);
+      background-size:100% 100%, 600px 600px;
+      box-shadow:0 1px 2px rgba(54,40,24,.14), 0 18px 42px rgba(30,24,15,.2), inset 0 0 0 1px rgba(255,255,255,.65);
+      color:var(--ink);
+      font-family:"Cormorant Garamond", serif;
+      font-weight:400;
+      text-align:center;
+      text-transform:uppercase;
+      transform:translateY(0) scale(var(--letter-start-scale, .54));
+      transform-origin:center;
+    }
+    .envelope-reveal:not(.is-opening) .envelope-letter{visibility:hidden}
+    .envelope-reveal.uses-fallback-font .envelope-letter,
+    .envelope-reveal.uses-fallback-font .envelope-letter h2,
+    .envelope-reveal.uses-fallback-font .envelope-seal{font-family:Georgia, serif}
+    /* The letter is a 5:7 card. Sizes and spacing are fractions of its width (cqi),
+       measured from the printed invitation PDF (360pt wide): 1pt = 0.2778cqi. */
+    .envelope-letter-inner{
+      display:grid;
+      justify-items:center;
+      width:100%;
+      padding:0 4cqi 11.7cqi;
+    }
+    .envelope-letter::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      border:1px solid rgba(255,255,255,.58);
+      box-shadow:inset 0 0 2px rgba(255,255,255,.85);
+      border-radius:inherit;
+      pointer-events:none;
+    }
+    .envelope-letter .envelope-line{
+      margin:0;
+      font-size:2.778cqi;   /* 10pt */
+      line-height:3.75cqi;  /* 13.5pt */
+      letter-spacing:.045em;
+      text-wrap:balance;
+    }
+    .envelope-letter .envelope-host{line-height:4.167cqi; letter-spacing:.05em}
+    .envelope-letter .envelope-hosts-start{margin-top:21.754cqi}
+    .envelope-letter .envelope-line-italic{font-style:italic}
+    .envelope-letter .envelope-intro{margin-top:-.417cqi}
+    .envelope-letter h2{
+      margin:2.984cqi 0 0;
+      font-family:"Cormorant Garamond", serif;
+      font-size:7.972cqi;   /* 28.7pt */
+      line-height:9.556cqi;
+      letter-spacing:.12em;
+      font-weight:400;
+      white-space:nowrap;
+    }
+    .envelope-letter h2 span{display:block}
+    .envelope-letter .envelope-ampersand{
+      margin-top:1.096cqi;
+      font-size:4.444cqi;   /* 16pt */
+      line-height:5.333cqi;
+      letter-spacing:0;
+    }
+    .envelope-letter .envelope-name-second{margin-top:1.515cqi}
+    .envelope-letter .envelope-date{
+      margin:6.706cqi 0 0;
+      font-size:4.056cqi;   /* 14.6pt */
+      line-height:4.861cqi;
+      letter-spacing:.12em;
+      white-space:nowrap;
+    }
+    .envelope-letter .envelope-venue{margin-top:3.139cqi}
+    .envelope-letter .envelope-venue-first{margin-top:6.629cqi}
+    .envelope-letter .envelope-rsvp{margin-top:2.972cqi}
+    .envelope-letter .envelope-attire{margin-top:3cqi}
+    .envelope{
+      position:absolute;
+      top:50%;
+      right:0;
+      left:0;
+      height:var(--envelope-height);
+      transform:translateY(-50%);
+      pointer-events:none;
+    }
+    .envelope-back{
+      z-index:0;
+      background-color:#dcd3c2;
+      background-image:linear-gradient(180deg, rgba(128,108,75,.25), rgba(166,149,120,.08) 60%), var(--paper-texture);
+      background-size:100% 100%, 600px 600px;
+      border:1px solid rgba(110,88,61,.16);
+      box-shadow:0 2px 3px rgba(54,40,24,.08), 0 18px 35px rgba(54,40,24,.12);
+    }
+    .envelope-front{
+      z-index:3;
+      background-color:#eee7db;
+      background-image:linear-gradient(145deg, rgba(255,255,255,.14), rgba(144,121,83,.12) 58%, rgba(255,255,255,.2)), var(--paper-texture);
+      background-size:100% 100%, 600px 600px;
+      clip-path:polygon(0 0, 50% 48%, 100% 0, 100% 100%, 0 100%);
+    }
+    .envelope-front::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image:linear-gradient(180deg, rgba(145,125,91,.12) 35%, rgba(255,255,255,.13)), var(--paper-texture);
+      background-size:100% 100%, 600px 600px;
+      clip-path:polygon(0 100%, 50% 44%, 100% 100%);
+    }
+    .envelope-front::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      border:1px solid rgba(20,20,20,.12);
+    }
+    .envelope-flap-layer{perspective:1200px; perspective-origin:50% 0}
+    .envelope-flap-layer-back{z-index:1}
+    .envelope-flap-layer-front{z-index:4}
+    .envelope-flap{
+      position:absolute;
+      inset:0 0 auto;
+      height:61%;
+      transform-origin:top center;
+      transform:rotateX(0deg);
+      transform-style:preserve-3d;
+    }
+    .envelope-flap-face{
+      position:absolute;
+      inset:0;
+      background-color:#f4efe5;
+      background-image:linear-gradient(170deg, rgba(255,255,255,.26), rgba(161,138,100,.06)), var(--paper-texture);
+      background-size:100% 100%, 600px 600px;
+      clip-path:polygon(0 0, 100% 0, 50% 100%);
+      backface-visibility:hidden;
+      -webkit-backface-visibility:hidden;
+    }
+    .envelope-flap-layer-back .envelope-flap-face{
+      background-image:linear-gradient(180deg, rgba(174,153,116,.08), rgba(128,107,71,.22)), var(--paper-texture);
+      transform:rotateY(180deg);
+    }
+    .envelope-seal-layer{z-index:5}
+    .envelope-seal{
+      position:absolute;
+      top:55%;
+      left:50%;
+      width:88px;
+      aspect-ratio:1;
+      transform:translate(-50%, -50%);
+    }
+    .envelope-reveal.uses-basic-paper .envelope-scene{--paper-texture:none}
+    .envelope-reveal.uses-basic-paper .envelope-seal img{visibility:hidden}
+    .envelope-reveal.uses-basic-paper .envelope-seal{
+      background:#e7dfcc;
+      border:1px solid rgba(255,255,255,.7);
+      border-radius:50%;
+      box-shadow:0 3px 8px rgba(64,48,25,.18), inset 0 0 0 4px #ddd3be;
+    }
+    .envelope-seal{filter:drop-shadow(0 3px 3px rgba(64,48,25,.25))}
+    .envelope-seal-crop{position:absolute; inset:0; overflow:hidden; border-radius:50%; background:#841313}
+    .envelope-seal img{
+      position:absolute; left:50%; top:50%;
+      width:1005.56%; max-width:none; height:auto;
+      transform:translate(-50%, -68.5%);
+    }
+    .envelope-reveal.is-opening .envelope-flap{
+      animation:open-envelope 900ms cubic-bezier(.4,0,.2,1) 300ms both;
+    }
+    .envelope-reveal.is-opening .envelope-seal{
+      animation:release-seal 260ms cubic-bezier(.4,0,1,1) 160ms both;
+    }
+    .envelope-reveal.is-opening .envelope-letter{
+      animation:raise-letter 2400ms linear 880ms both;
+    }
+    .envelope-reveal.is-opening .envelope{
+      animation:lower-envelope 1760ms cubic-bezier(.4,0,.2,1) 1080ms both;
+    }
+    @keyframes open-envelope{
+      to{transform:rotateX(-178deg)}
+    }
+    @keyframes release-seal{
+      to{transform:translate(-50%, -45%) scale(.88); opacity:0}
+    }
+    @keyframes raise-letter{
+      0%{transform:translateY(0) scale(var(--letter-start-scale, .54)); animation-timing-function:cubic-bezier(.4,0,.2,1)}
+      48%{transform:translateY(calc(-1 * var(--letter-lift))) scale(.66); animation-timing-function:cubic-bezier(.22,.68,.2,1)}
+      100%{transform:translateY(0) scale(1)}
+    }
+    @keyframes lower-envelope{
+      0%{transform:translateY(-50%); opacity:1}
+      55%{opacity:1}
+      100%{transform:translateY(calc(-50% + var(--envelope-drop))); opacity:0}
+    }
+    .letter-continue{
+      margin:6.655cqi auto 0; padding:0; border:0;
+      background:none; color:var(--ink); font-family:inherit; text-transform:inherit;
+      font-size:2.639cqi; line-height:3.75cqi; letter-spacing:.06em; cursor:pointer;
+    }
+    /* The button's hit area covers the paper while its label stays at the end. */
+    .letter-continue::after{content:""; position:absolute; inset:0}
+    .letter-continue:focus{outline:none; box-shadow:none}
+    .letter-continue:hover,
+    .letter-continue:focus-visible{text-decoration:underline; text-underline-offset:.25em}
+    .envelope-reveal:not(.is-letter-ready) .letter-continue{visibility:hidden}
+    .envelope-reveal.is-letter-ready .envelope{visibility:hidden}
+    .envelope-reveal.is-opening.is-letter-ready .envelope-letter{
+      animation:none; opacity:1; transform:none; pointer-events:auto;
+    }
+    img{display:block;max-width:100%}
+    a{color:inherit}
+    button,input,select,textarea{font:inherit}
+    .wrap{width:min(1240px, calc(100% - 36px)); margin:auto}
+
+    .nav{
+      position:fixed;
+      top:0; left:0; right:0;
+      z-index:1000;
+      background:rgba(243,239,232,.84);
+      backdrop-filter:blur(8px);
+      border-bottom:1px solid rgba(20,20,20,.08);
+    }
+    .nav-inner{
+      min-height:74px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+    }
+    .brand{
+      text-decoration:none;
+      font-family:"Cormorant Garamond", serif;
+      font-size:1.36rem;
+      letter-spacing:.02em;
+    }
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+    .nav-links a{
+      text-decoration:none;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-size:.72rem;
+      color:var(--muted);
+    }
+    .nav-links .pill{
+      border:1px solid var(--ink);
+      border-radius:999px;
+      padding:10px 14px;
+      color:var(--ink);
+      background:rgba(255,255,255,.55);
+    }
+
+    h1,h2,h3,h4{
+      font-family:"Cormorant Garamond", serif;
+      font-weight:500;
+      line-height:1;
+      margin:0;
+    }
+    h1{font-size:clamp(3.3rem,7vw,6.4rem)}
+    h2{font-size:clamp(2.7rem,5.5vw,5.1rem)}
+    h3{font-size:clamp(2rem,3.5vw,3rem)}
+    h4{font-size:clamp(1.8rem,3vw,2.6rem)}
+    p{margin:0 0 1rem}
+    .section-title{
+      text-align:center;
+      max-width:1100px;
+      margin:0 auto;
+    }
+
+    .hero{
+      position:relative;
+      min-height:100svh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:white;
+      overflow:hidden;
+      padding-top:74px;
+    }
+    .hero:focus{outline:none}
+    .hero-media{
+      position:absolute;
+      inset:0;
+      z-index:0;
+    }
+    .hero-media img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:center 72%;
+      /* Crop the narrow black borders embedded in the portrait photograph. */
+      transform:scale(1.08);
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(15,15,15,.18), rgba(15,15,15,.38));
+      z-index:1;
+    }
+    .hero-content{
+      position:relative;
+      z-index:2;
+      text-align:center;
+      padding:50px 20px;
+      max-width:980px;
+    }
+    .hero h1{
+      font-family:"Cormorant Garamond", serif;
+      font-size:clamp(1.7rem,2.6vw,2.35rem);
+      line-height:1.1;
+      font-weight:500;
+      margin-bottom:10px;
+    }
+    .hero-date{
+      font-family:"Cormorant Garamond", serif;
+      font-size:clamp(1.7rem,2.6vw,2.35rem);
+      line-height:1.1;
+      margin-bottom:14px;
+    }
+    .hero-marriage{
+      font-family:"Cormorant Garamond", serif;
+      font-size:clamp(3rem,6vw,5.8rem);
+      line-height:0.96;
+      font-weight:500;
+    }
+    .hero-marriage span{
+      display:block;
+    }
+
+    section{
+      padding:90px 0;
+    }
+
+    .event-section{
+      padding:100px 0;
+      border-top:1px solid var(--line);
+    }
+    .event-grid{
+      display:grid;
+      grid-template-columns:1.03fr .97fr;
+      gap:34px;
+      align-items:center;
+    }
+    .event-grid.reverse{
+      grid-template-columns:.97fr 1.03fr;
+    }
+    .event-card-only{width:min(100%, 720px)}
+    .event-copy{
+      background:var(--card);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      padding:38px;
+    }
+    .event-day{
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:.76rem;
+      color:var(--muted);
+      margin-bottom:12px;
+    }
+    .event-copy h3{
+      margin-bottom:12px;
+    }
+    .event-copy .date{
+      color:var(--muted);
+      margin-bottom:14px;
+      font-size:1rem;
+    }
+    .event-copy .location{
+      font-size:1.08rem;
+      margin-bottom:10px;
+    }
+    .event-copy .sub{
+      color:var(--muted);
+      font-size:.98rem;
+      margin-bottom:16px;
+    }
+    .event-copy a{
+      display:inline-block;
+      margin-top:8px;
+      text-underline-offset:4px;
+    }
+    .event-photo{
+      background:white;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .event-photo img{
+      width:100%;
+      height:650px;
+      object-fit:cover;
+      display:block;
+    }
+    .event-photo.portrait img{
+      height:auto;
+      object-fit:cover;
+    }
+
+    .event-photo-stack{
+      display:grid;
+      grid-template-rows:1fr 1fr;
+      gap:16px;
+      height:720px;
+      min-width:0;
+    }
+    .event-photo-stack .event-photo{
+      min-height:0;
+    }
+    .event-photo-stack .event-photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    .event-photo-stack .catalina-photo img{
+      object-position:center 52%;
+    }
+    .event-photo-stack .matilda-view-photo img{
+      object-position:center 62%;
+    }
+    .event-photo-stack .ducks-photo img{
+      object-position:center 76%;
+    }
+    .event-photo-stack .bunker-aerial-photo img{
+      object-position:center center;
+    }
+
+    .rehearsal-grid{
+      display:grid;
+      grid-template-columns:1.03fr .97fr;
+      gap:34px;
+      align-items:stretch;
+      min-height:790px;
+    }
+    .rehearsal-left{
+      display:grid;
+      grid-template-rows:auto 1fr;
+      gap:24px;
+      min-width:0;
+    }
+    .rehearsal-composite,
+    .rehearsal-main-photo{
+      background:white;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      min-height:0;
+    }
+    .rehearsal-composite img,
+    .rehearsal-main-photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .rehearsal-composite img{
+      object-position:center center;
+    }
+    .rehearsal-main-photo img{
+      object-position:center 48%;
+    }
+
+    .map-section{
+      border-top:1px solid var(--line);
+      padding-top:100px;
+    }
+    .map-grid{
+      display:grid;
+      grid-template-columns:1.12fr .88fr;
+      gap:30px;
+      align-items:start;
+      margin-top:36px;
+    }
+    .map-frame{
+      background:white;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .map-frame img{
+      width:100%;
+      height:auto;
+      display:block;
+    }
+    .map-badge{
+      position:absolute;
+      background:rgba(255,255,255,.98);
+      border:1px solid rgba(0,0,0,.14);
+      box-shadow:0 8px 20px rgba(0,0,0,.13);
+      border-radius:999px;
+      padding:10px 14px;
+      font-size:.9rem;
+      font-weight:700;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      white-space:nowrap;
+    }
+    .map-badge .dot{
+      width:11px;
+      height:11px;
+      border-radius:50%;
+      background:#181818;
+      flex:0 0 auto;
+    }
+    .map-badge.ceremony{left:5.2%; top:10.6%;}
+    .map-badge.reception{left:28.8%; top:68.8%;}
+    .map-badge.scarborough{left:2.2%; top:24.6%;}
+    .map-badge.cottesloe{left:1.6%; top:82.8%;}
+
+    .map-side{
+      display:grid;
+      gap:24px;
+    }
+    .info-card{
+      background:var(--card);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      padding:28px;
+    }
+    .info-card h3{
+      margin-bottom:14px;
+    }
+    .info-card p{
+      color:var(--muted);
+      margin-bottom:12px;
+    }
+    .drive{
+      display:inline-block;
+      padding:12px 16px;
+      border:1px solid var(--line);
+      background:white;
+      font-weight:700;
+      font-size:.95rem;
+    }
+
+    .rsvp-section{
+      border-top:1px solid var(--line);
+      padding-top:100px;
+    }
+    .rsvp-grid{
+      display:grid;
+      grid-template-columns:.92fr 1.08fr;
+      gap:28px;
+      align-items:start;
+      margin-top:34px;
+    }
+    .rsvp-photo{
+      background:white;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .rsvp-photo img{
+      width:100%;
+      height:760px;
+      object-fit:cover;
+      object-position:center center;
+    }
+    .form-wrap{
+      background:var(--card);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      padding:34px;
+    }
+    .form-wrap p{
+      color:var(--muted);
+      margin-top:0;
+      margin-bottom:18px;
+    }
+    .row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+    .field{margin-bottom:16px}
+    label{
+      display:block;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-size:.68rem;
+      color:var(--muted);
+      margin-bottom:7px;
+    }
+    input,select,textarea{
+      width:100%;
+      border:1px solid var(--line);
+      background:white;
+      color:var(--ink);
+      padding:12px;
+    }
+    textarea{min-height:120px; resize:vertical}
+    .button{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:13px 18px;
+      border:1px solid var(--ink);
+      border-radius:999px;
+      background:var(--ink);
+      color:white;
+      cursor:pointer;
+      font-size:.88rem;
+      letter-spacing:.05em;
+    }
+    .status{
+      min-height:1.3em;
+      margin-top:12px;
+      font-size:.92rem;
+    }
+    .status.is-error{color:#a3211c}
+    .status.is-success{
+      margin-top:12px;
+      padding:12px 14px;
+      border:1px solid #9dbda7;
+      background:#edf4ee;
+      color:#1f5d42;
+      font-weight:700;
+      line-height:1.5;
+    }
+    .guest-responses{
+      display:grid;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    .guest-response{
+      padding:22px;
+      border:1px solid var(--line);
+      background:white;
+    }
+    .guest-response h4{
+      margin-bottom:16px;
+      font-size:clamp(1.55rem,2.5vw,2rem);
+    }
+    .attendance-field{
+      min-inline-size:0;
+      margin:0 0 16px;
+      padding:0;
+      border:0;
+    }
+    .attendance-field legend{
+      padding:0;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-size:.68rem;
+      color:var(--muted);
+      margin-bottom:7px;
+    }
+    .attendance-options{display:flex; gap:8px}
+    .attendance-option{position:relative}
+    .attendance-option input{
+      position:absolute;
+      opacity:0;
+      pointer-events:none;
+    }
+    .attendance-option label{
+      min-width:82px;
+      margin:0;
+      padding:10px 14px;
+      border:1px solid var(--line);
+      background:white;
+      color:var(--ink);
+      text-align:center;
+      cursor:pointer;
+    }
+    .attendance-option input:checked + label{
+      border-color:var(--ink);
+      background:var(--ink);
+      color:white;
+    }
+    .attendance-option input:focus-visible + label{
+      outline:2px solid var(--ink);
+      outline-offset:2px;
+    }
+    .dietary-field[hidden]{display:none}
+    .dietary-field label{font-size:.75rem}
+    .dietary-field textarea{min-height:96px}
+    .dietary-field .dietary-help{
+      margin:8px 0 0; color:var(--muted); font-size:.875rem; line-height:1.5;
+    }
+    .honeypot{
+      position:absolute;
+      left:-9999px;
+      width:1px;
+      height:1px;
+      overflow:hidden;
+    }
+    .status.is-loading{color:var(--muted)}
+    .note{
+      margin-top:12px;
+      color:var(--muted);
+      font-size:.82rem;
+      line-height:1.6;
+    }
+
+    footer{
+      padding:32px 0 50px;
+      text-align:center;
+      color:var(--muted);
+      font-size:.86rem;
+    }
+
+    @media (max-width: 1100px){
+      .event-grid,
+      .event-grid.reverse,
+      .rehearsal-grid,
+      .map-grid,
+      .rsvp-grid{
+        grid-template-columns:1fr;
+      }
+      .rehearsal-grid{
+        min-height:0;
+      }
+      .rehearsal-left{
+        grid-template-rows:auto auto;
+      }
+      .rehearsal-composite img,
+      .rehearsal-main-photo img{
+        height:auto;
+      }
+      .event-photo-stack{
+        height:auto;
+      }
+      .event-photo-stack .event-photo img{
+        height:420px;
+      }
+      .event-photo img{height:520px}
+      .rsvp-photo img{height:540px}
+    }
+    @media (max-width: 760px){
+      .wrap{width:min(100% - 22px, 1240px)}
+      .hero{padding-top:68px}
+      section,.event-section,.map-section,.rsvp-section{padding:68px 0}
+      .event-section::before,
+      .map-section::before{
+        content:"";
+        display:block;
+        width:9px;
+        height:9px;
+        margin:0 auto 28px;
+        border:1px solid var(--ink);
+        opacity:.45;
+        transform:rotate(45deg);
+      }
+      .event-grid > .event-copy{order:1}
+      .event-grid > .event-photo,
+      .event-grid > .event-photo-stack{order:2}
+      .map-grid .map-side{order:1}
+      .map-grid .map-frame{order:2}
+      .nav-inner{min-height:68px}
+      .nav-links a:not(.pill){display:none}
+      .row{grid-template-columns:1fr}
+      .event-copy, .form-wrap, .info-card{padding:24px}
+      .event-photo img{height:380px}
+      .event-photo.portrait img{height:auto}
+      .event-photo-stack .event-photo img{height:300px}
+      .rehearsal-composite img,
+      .rehearsal-main-photo img{height:auto}
+      .rsvp-photo img{height:400px}
+      .map-badge{transform:scale(.78); transform-origin:left top;}
+      .envelope-reveal-inner{width:calc(100% - 22px)}
+      .envelope-letter{width:92%}
+      .envelope-seal{width:72px}
+    }
+    @media (prefers-reduced-motion: reduce){
+      .nav, .hero-content{transition:none}
+      .envelope-reveal,
+      .envelope-reveal *,
+      .envelope-reveal::before{
+        animation-delay:0ms !important;
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="envelope-reveal" id="envelopeReveal" tabindex="-1" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Sarah and Sebastian Ortiz’s wedding invitation">
+    <div class="envelope-photo" aria-hidden="true"><img src="assets/hero-proposal.jpg" alt="" fetchpriority="high"></div>
+    <div class="envelope-reveal-inner">
+      <div class="envelope-scene">
+        <article class="envelope-letter">
+          <div class="envelope-letter-inner">
+            <p class="envelope-line envelope-host envelope-hosts-start">Mr &amp; Mrs Couve de Murville</p>
+            <p class="envelope-line envelope-host envelope-line-italic">together with</p>
+            <p class="envelope-line envelope-host">Mr &amp; Mrs Ortiz</p>
+            <p class="envelope-line envelope-host envelope-intro">joyfully invite you to celebrate the marriage of</p>
+            <h2 id="envelopeTitle"><span>Sarah Louise</span><span class="envelope-ampersand">&amp;</span><span class="envelope-name-second">Sebastian Manuel</span></h2>
+            <p class="envelope-date" id="envelopeDate">Thursday 4th March 2027</p>
+            <p class="envelope-line envelope-venue envelope-venue-first">4.00 pm | Immaculate Heart of Mary Parish<br>104 Scarborough Beach Rd, Scarborough</p>
+            <p class="envelope-line envelope-venue">6.00 pm | Matilda Bay Restaurant<br>3 Hackett Dr., Crawley</p>
+            <p class="envelope-line envelope-rsvp">Kindly RSVP by 15 January 2027</p>
+            <p class="envelope-line envelope-attire">Formal attire</p>
+            <button class="letter-continue" id="enterWeddingWebsite" type="button" disabled>Click to go to wedding website</button>
+          </div>
+        </article>
+        <div class="envelope envelope-back" aria-hidden="true"></div>
+        <div class="envelope envelope-flap-layer envelope-flap-layer-back" aria-hidden="true">
+          <div class="envelope-flap"><div class="envelope-flap-face"></div></div>
+        </div>
+        <div class="envelope envelope-front" aria-hidden="true"></div>
+        <div class="envelope envelope-flap-layer envelope-flap-layer-front" aria-hidden="true">
+          <div class="envelope-flap"><div class="envelope-flap-face"></div></div>
+        </div>
+        <div class="envelope envelope-seal-layer" aria-hidden="true">
+          <div class="envelope-seal"><span class="envelope-seal-crop"><img class="envelope-seal-artwork" src="assets/invitation-stationery-red.png" width="1448" height="1086" alt="" fetchpriority="high"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <a href="#welcome" class="brand">Sarah &amp; Sebastian Ortiz</a>
+      <div class="nav-links">
+        <a href="#welcome">Welcome</a>
+        <a href="#ceremony">Events</a>
+        <a href="#map-section">Map</a>
+        <a href="#rsvp" class="pill">RSVP</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" id="welcome" tabindex="-1">
+      <div class="hero-media">
+        <img src="assets/hero-proposal.jpg" alt="Proposal photo of Sarah and Sebastian">
+      </div>
+      <div class="hero-content">
+        <h1>We would love to celebrate with you.</h1>
+        <div class="hero-date">4th of March 2027</div>
+        <div class="hero-marriage"><span>Sarah &amp; Sebastian</span></div>
+      </div>
+    </section>
+
+    <section class="event-section" id="ceremony">
+      <div class="wrap event-card-only">
+        <div class="event-copy">
+          <div class="event-day">Thursday</div>
+          <h3>Ceremony</h3>
+          <div class="date">4th of March 2027</div>
+          <div class="location">Immaculate Heart of Mary Parish</div>
+          <div class="sub">Scarborough · 4:00pm</div>
+          <div class="sub">Dress code: formal black tie</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="event-section" id="reception">
+      <div class="wrap event-card-only">
+        <div class="event-copy">
+          <div class="event-day">Thursday</div>
+          <h3>Reception</h3>
+          <div class="date">4th of March 2027</div>
+          <div class="location">Matilda Bay Restaurant</div>
+          <div class="sub">Crawley</div>
+          <div class="sub">Cocktail hour · 6:00pm</div>
+          <div class="sub">Dinner and dance to follow</div>
+          <div class="sub">Dress code: formal black tie</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="map-section" id="map-section">
+      <div class="wrap">
+        <h2 class="section-title">Map & Recommendations</h2>
+
+        <div class="map-grid">
+          <div class="map-frame">
+            <img src="assets/map.png" alt="Map showing the ceremony, reception, Scarborough and Cottesloe">
+            <div class="map-badge ceremony"><span class="dot"></span>Immaculate Heart of Mary</div>
+            <div class="map-badge reception"><span class="dot"></span>Matilda Bay</div>
+            <div class="map-badge scarborough"><span class="dot"></span>Scarborough</div>
+            <div class="map-badge cottesloe"><span class="dot"></span>Cottesloe</div>
+          </div>
+
+          <div class="map-side">
+            <div class="info-card">
+              <h3>We recommend you stay in Scarborough or Cottesloe</h3>
+              <div class="drive">Approx. 30 minute drive from the church to Matilda Bay</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rsvp-section" id="rsvp">
+      <div class="wrap">
+        <h2 class="section-title">RSVP</h2>
+
+        <div class="rsvp-grid">
+          <div class="rsvp-photo">
+            <img src="assets/rsvp-dance.jpg" alt="Sarah and Sebastian dancing together">
+          </div>
+
+          <div class="form-wrap">
+            <form id="rsvpForm" hidden>
+              <div class="guest-responses" id="guestResponses"></div>
+
+              <div class="field">
+                <label for="notes">Notes</label>
+                <textarea id="notes" name="notes"></textarea>
+              </div>
+
+              <div class="honeypot" aria-hidden="true">
+                <label for="website">Website</label>
+                <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+              </div>
+
+              <button class="button" type="submit">Send RSVP</button>
+            </form>
+            <div class="status" id="status" role="status" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Sarah &amp; Sebastian Ortiz · Thursday 4 March 2027 · Perth, Western Australia
+  </footer>
+
+  <script>
+    const RSVP_API_URL = "https://script.google.com/macros/s/AKfycbwc4ewnjjCc5Eq0NQd5B-RlwJOpRtXB-WepShl9xsCF196-YBo5FbliS86piUdGZ6U/exec";
+    const envelopeReveal = document.getElementById("envelopeReveal");
+    const pageContent = document.querySelectorAll(".nav, main, footer");
+    const form = document.getElementById("rsvpForm");
+    const statusEl = document.getElementById("status");
+    const guestResponsesEl = document.getElementById("guestResponses");
+    const notesEl = document.getElementById("notes");
+    const submitButton = form.querySelector('button[type="submit"]');
+    const inviteCode = new URLSearchParams(window.location.search).get("invite")?.trim();
+    let invitation = null;
+    let submitting = false;
+    let revealWatchdog;
+    let revealDismissTimer;
+    let revealStartedAt;
+    const letterContinueButton = document.getElementById("enterWeddingWebsite");
+    let letterReady = false;
+    let proposalPhotoReady = false;
+    let revealFinished = false;
+    const revealMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    function setPageInert(isInert) {
+      pageContent.forEach((element) => { element.inert = isInert; });
+    }
+
+    function completeEnvelopeReveal() {
+      const restoreFocus = envelopeReveal.contains(document.activeElement) && !document.hidden;
+      window.clearTimeout(revealDismissTimer);
+      envelopeReveal.hidden = true;
+      envelopeReveal.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("reveal-lock");
+      setPageInert(false);
+      // Move into the page without focusing (and outlining) the navigation brand.
+      if (restoreFocus) document.getElementById("welcome").focus({ preventScroll: true });
+    }
+
+    function finishEnvelopeReveal(immediate = false) {
+      if (envelopeReveal.hidden) return;
+      if (revealFinished) {
+        if (immediate) completeEnvelopeReveal();
+        return;
+      }
+      revealFinished = true;
+      revealResizeObserver.disconnect();
+      window.clearTimeout(revealWatchdog);
+      if (immediate || revealMotion.matches) {
+        completeEnvelopeReveal();
+        return;
+      }
+      envelopeReveal.classList.add("is-dismissing");
+      revealDismissTimer = window.setTimeout(completeEnvelopeReveal, 650);
+    }
+
+    envelopeReveal.addEventListener("transitionend", (event) => {
+      if (event.target === envelopeReveal && event.propertyName === "opacity" && revealFinished) {
+        completeEnvelopeReveal();
+      }
+    });
+    function settleEnvelopeLetter() {
+      if (revealFinished || revealStartedAt === undefined || letterReady) return;
+      letterReady = true;
+      window.clearTimeout(revealWatchdog);
+      envelopeReveal.classList.add("is-letter-ready");
+      letterContinueButton.disabled = false;
+    }
+
+    envelopeReveal.querySelector(".envelope-letter").addEventListener("animationend", (event) => {
+      if (event.animationName === "raise-letter") settleEnvelopeLetter();
+    });
+
+    function sizeEnvelopeScene() {
+      const scene = envelopeReveal.querySelector(".envelope-scene");
+      const letter = scene.querySelector(".envelope-letter");
+      const inner = envelopeReveal.querySelector(".envelope-reveal-inner");
+      const envelopeHeight = scene.querySelector(".envelope-back").offsetHeight;
+      const innerStyle = getComputedStyle(inner);
+      const availableHeight = inner.clientHeight - parseFloat(innerStyle.paddingTop) - parseFloat(innerStyle.paddingBottom);
+      // Reserve the maximum 130px lift and unfolded flap, including landscape.
+      const halfHeight = Math.max(letter.offsetHeight / 2, envelopeHeight * 1.15, letter.offsetHeight * .33 + 130);
+      scene.style.setProperty("--scene-scale", Math.min(1, availableHeight / (halfHeight * 2 + 24)));
+      scene.style.setProperty("--letter-start-scale", Math.min(.54, (envelopeHeight - 24) / letter.offsetHeight));
+    }
+
+    const revealResizeObserver = new ResizeObserver(() => {
+      if (!envelopeReveal.hidden && !revealFinished) sizeEnvelopeScene();
+    });
+
+    function revealProposalPhoto() {
+      if (!proposalPhotoReady || revealStartedAt === undefined || revealFinished) return;
+      // Keep the planned handoff time, but never dissolve onto an unloaded photo.
+      const remainingDelay = Math.max(0, 1300 - (performance.now() - revealStartedAt));
+      envelopeReveal.style.setProperty("--photo-delay", remainingDelay + "ms");
+      envelopeReveal.classList.add("is-photo-ready");
+    }
+
+    function openInvitation() {
+      if (revealFinished || revealStartedAt !== undefined) return;
+      revealStartedAt = performance.now();
+      sizeEnvelopeScene();
+      envelopeReveal.focus({ preventScroll: true });
+      envelopeReveal.classList.add("is-opening");
+      revealProposalPhoto();
+      // Interrupted or reduced-motion animation still leaves the letter to read.
+      if (revealMotion.matches) settleEnvelopeLetter();
+      else revealWatchdog = window.setTimeout(settleEnvelopeLetter, 6000);
+    }
+
+    function startEnvelopeReveal() {
+      // Direct links to events and RSVP keep their destination immediately usable.
+      if ((window.location.hash && window.location.hash !== "#welcome") || revealFinished || revealStartedAt !== undefined) return;
+      if (document.hidden) {
+        document.addEventListener("visibilitychange", function beginWhenVisible() {
+          if (document.hidden) return;
+          document.removeEventListener("visibilitychange", beginWhenVisible);
+          startEnvelopeReveal();
+        });
+        return;
+      }
+      envelopeReveal.querySelector(".envelope-photo img").decode().then(() => {
+        proposalPhotoReady = true;
+        revealProposalPhoto();
+      }).catch(() => { /* Keep the ivory backdrop if the photo cannot load. */ });
+      envelopeReveal.hidden = false;
+      envelopeReveal.setAttribute("aria-hidden", "false");
+      document.body.classList.add("reveal-lock");
+      setPageInert(true);
+      sizeEnvelopeScene();
+      revealResizeObserver.observe(envelopeReveal.querySelector(".envelope-reveal-inner"));
+      revealResizeObserver.observe(envelopeReveal.querySelector(".envelope-letter"));
+      openInvitation();
+    }
+
+    letterContinueButton.addEventListener("click", () => {
+      if (letterReady) finishEnvelopeReveal();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (envelopeReveal.hidden) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        finishEnvelopeReveal(true);
+      } else if (event.key === "Tab") {
+        event.preventDefault();
+        const focusTarget = letterReady ? letterContinueButton : envelopeReveal;
+        focusTarget.focus({ preventScroll: true });
+      }
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden && revealStartedAt !== undefined && !envelopeReveal.hidden) settleEnvelopeLetter();
+    });
+    revealMotion.addEventListener("change", (event) => {
+      if (event.matches && revealStartedAt !== undefined) settleEnvelopeLetter();
+    });
+
+    function setStatus(message, state) {
+      statusEl.className = "status";
+      if (state) statusEl.classList.add("is-" + state);
+      statusEl.textContent = message;
+    }
+
+    function invitationFrom(result) {
+      const guests = Array.isArray(result.guests)
+        ? result.guests
+            .map((name) => String(name || "").trim())
+            .filter(Boolean)
+            .slice(0, 4)
+        : [];
+
+      if (!guests.length) throw new Error("Invalid invitation data");
+      return { guests };
+    }
+
+    function addGuestResponse(name, index) {
+      const card = document.createElement("section");
+      card.className = "guest-response";
+
+      const heading = document.createElement("h4");
+      heading.textContent = name;
+      card.append(heading);
+
+      const attendanceField = document.createElement("fieldset");
+      attendanceField.className = "attendance-field";
+      const question = document.createElement("legend");
+      question.textContent = "Will you be attending?";
+      const options = document.createElement("div");
+      options.className = "attendance-options";
+
+      ["yes", "no"].forEach((value) => {
+        const option = document.createElement("div");
+        option.className = "attendance-option";
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.id = "attending-" + index + "-" + value;
+        input.name = "attending-" + index;
+        input.value = value;
+        input.required = true;
+        const label = document.createElement("label");
+        label.htmlFor = input.id;
+        label.textContent = value[0].toUpperCase() + value.slice(1);
+        option.append(input, label);
+        options.append(option);
+      });
+      attendanceField.append(question, options);
+
+      const dietaryField = document.createElement("div");
+      dietaryField.className = "field dietary-field";
+      const dietaryLabel = document.createElement("label");
+      const dietaryId = "dietary-" + index;
+      dietaryLabel.htmlFor = dietaryId;
+      dietaryLabel.textContent = "Dietary requirements or allergies";
+      const dietary = document.createElement("textarea");
+      dietary.id = dietaryId;
+      dietary.name = dietaryId;
+      dietary.rows = 3;
+      dietary.maxLength = 500;
+      dietary.autocomplete = "off";
+      dietary.placeholder = "e.g. vegetarian, gluten-free, nut allergy, or None";
+      const dietaryHelp = document.createElement("p");
+      dietaryHelp.id = dietaryId + "-help";
+      dietaryHelp.className = "dietary-help";
+      dietaryHelp.textContent = 'For attending guests. Enter "None" if you have no dietary requirements.';
+      dietary.setAttribute("aria-describedby", dietaryHelp.id);
+      dietary.addEventListener("input", () => dietary.setCustomValidity(""));
+      dietaryField.append(dietaryLabel, dietary, dietaryHelp);
+
+      attendanceField.addEventListener("change", () => {
+        const isAttending = document.getElementById("attending-" + index + "-yes").checked;
+        dietaryField.hidden = !isAttending;
+        dietary.disabled = !isAttending;
+        dietary.required = isAttending;
+        dietary.setCustomValidity("");
+        if (!isAttending) dietary.value = "";
+      });
+
+      card.append(attendanceField, dietaryField);
+      guestResponsesEl.append(card);
+    }
+
+    function renderInvitation(data) {
+      invitation = data;
+      guestResponsesEl.replaceChildren();
+      invitation.guests.forEach(addGuestResponse);
+      form.hidden = false;
+    }
+
+    async function loadInvitation() {
+      form.hidden = true;
+      if (!inviteCode) {
+        setStatus("Please use the personal RSVP link sent with your invitation.", "error");
+        return;
+      }
+
+      setStatus("Loading your invitation…", "loading");
+      try {
+        const lookupUrl = new URL(RSVP_API_URL);
+        lookupUrl.searchParams.set("invite", inviteCode);
+        const response = await fetch(lookupUrl, { cache: "no-store" });
+        const result = await response.json();
+
+        if (!response.ok || !result.ok || result.valid !== true) {
+          setStatus("This invitation link is invalid or has expired.", "error");
+          return;
+        }
+
+        renderInvitation(invitationFrom(result));
+        setStatus("");
+      } catch (error) {
+        setStatus("We could not load this invitation. Please try again later.", "error");
+      }
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (submitting || !invitation) return;
+
+      invitation.guests.forEach((name, index) => {
+        const attending = document.getElementById("attending-" + index + "-yes").checked;
+        const dietary = document.getElementById("dietary-" + index);
+        dietary.setCustomValidity(attending && !dietary.value.trim()
+          ? 'Please enter dietary requirements or write "None".'
+          : "");
+      });
+      if (!form.reportValidity()) return;
+
+      const responses = invitation.guests.map((name, index) => {
+        const attending = document.getElementById("attending-" + index + "-yes").checked;
+        const dietary = document.getElementById("dietary-" + index).value.trim();
+        return { name, attending, dietary: attending ? dietary : "" };
+      });
+      const website = form.elements.website.value || "";
+
+      submitting = true;
+      submitButton.disabled = true;
+      setStatus("Sending…", "loading");
+      try {
+        const response = await fetch(RSVP_API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            invite: inviteCode,
+            responses,
+            notes: notesEl.value.trim(),
+            website
+          })
+        });
+        const result = await response.json();
+        if (!response.ok || !result.ok || result.success === false) {
+          throw new Error("RSVP submission failed");
+        }
+
+        form.hidden = true;
+        setStatus("Thank you — your RSVP has been sent.", "success");
+      } catch (error) {
+        setStatus("Error sending RSVP. Please try again.", "error");
+      } finally {
+        submitting = false;
+        submitButton.disabled = false;
+      }
+    });
+
+    startEnvelopeReveal();
+    loadInvitation();
+  </script>
+</body>
+</html>
