@@ -753,31 +753,6 @@
       font-weight:700;
       line-height:1.5;
     }
-    .invitation-section{
-      padding:64px 0;
-      border-bottom:1px solid var(--line);
-    }
-    .invitation-wrap{width:min(920px, calc(100% - 36px))}
-    .invitation-card{
-      padding:34px;
-      border:1px solid var(--line);
-      background:var(--card);
-      box-shadow:var(--shadow);
-      text-align:center;
-    }
-    .invitation-kicker{
-      margin-bottom:12px;
-      text-transform:uppercase;
-      letter-spacing:.18em;
-      font-size:.72rem;
-      color:var(--muted);
-    }
-    .invitation-card p{
-      margin:0;
-      font-family:"Cormorant Garamond", serif;
-      font-size:clamp(2rem,4.2vw,3.45rem);
-      line-height:1.06;
-    }
     .guest-responses{
       display:grid;
       gap:16px;
@@ -910,7 +885,7 @@
       .nav-inner{min-height:68px}
       .nav-links a:not(.pill){display:none}
       .row{grid-template-columns:1fr}
-      .event-copy, .form-wrap, .info-card, .invitation-card{padding:24px}
+      .event-copy, .form-wrap, .info-card{padding:24px}
       .event-photo img{height:380px}
       .event-photo.portrait img{height:auto}
       .event-photo-stack .event-photo img{height:300px}
@@ -991,15 +966,6 @@
         <h1>We would love to celebrate with you.</h1>
         <div class="hero-date">4th of March 2027</div>
         <div class="hero-marriage"><span>Sarah &amp; Sebastian</span></div>
-      </div>
-    </section>
-
-    <section class="invitation-section" id="invitation" hidden>
-      <div class="wrap invitation-wrap">
-        <div class="invitation-card">
-          <div class="invitation-kicker">Wedding invitation</div>
-          <p id="invitationMessage"></p>
-        </div>
       </div>
     </section>
 
@@ -1096,8 +1062,6 @@
     const pageContent = document.querySelectorAll(".nav, main, footer");
     const form = document.getElementById("rsvpForm");
     const statusEl = document.getElementById("status");
-    const invitationSection = document.getElementById("invitation");
-    const invitationMessageEl = document.getElementById("invitationMessage");
     const guestResponsesEl = document.getElementById("guestResponses");
     const notesEl = document.getElementById("notes");
     const submitButton = form.querySelector('button[type="submit"]');
@@ -1263,12 +1227,6 @@
       return { guests };
     }
 
-    function formatGuestNames(guests) {
-      if (guests.length === 1) return guests[0];
-      if (guests.length === 2) return guests.join(" & ");
-      return guests.slice(0, -1).join(", ") + " & " + guests[guests.length - 1];
-    }
-
     function addGuestResponse(name, index) {
       const card = document.createElement("section");
       card.className = "guest-response";
@@ -1337,10 +1295,6 @@
 
     function renderInvitation(data) {
       invitation = data;
-      invitationMessageEl.textContent = formatGuestNames(invitation.guests) + " " +
-        (invitation.guests.length === 1 ? "is" : "are") +
-        " invited to the wedding of Sarah & Sebastian Ortiz.";
-      invitationSection.hidden = false;
       guestResponsesEl.replaceChildren();
       invitation.guests.forEach(addGuestResponse);
       form.hidden = false;
