@@ -619,25 +619,24 @@
     }
     .map-badge{
       position:absolute;
-      background:rgba(255,255,255,.98);
-      border:1px solid rgba(0,0,0,.14);
-      box-shadow:0 8px 20px rgba(0,0,0,.13);
-      border-radius:999px;
-      padding:10px 14px;
-      font-size:.9rem;
-      font-weight:700;
-      display:flex;
-      align-items:center;
-      gap:8px;
-      white-space:nowrap;
-    }
-    .map-badge .dot{
-      width:11px;
-      height:11px;
+      width:28px;
+      height:28px;
+      background:var(--ink);
+      color:white;
+      border:2px solid white;
+      box-shadow:0 2px 6px rgba(0,0,0,.25);
       border-radius:50%;
-      background:#181818;
-      flex:0 0 auto;
+      font-family:Arial, sans-serif;
+      font-size:14px;
+      font-weight:700;
+      display:grid;
+      place-items:center;
+      line-height:1;
     }
+    .map-panel{min-width:0}
+    .map-key{list-style:none; padding:18px 0 0; margin:0; display:grid; gap:12px; font-size:.85rem}
+    .map-key li{display:flex; align-items:center; gap:10px}
+    .map-key-number{width:26px; height:26px; flex:0 0 26px; display:grid; place-items:center; border-radius:50%; background:var(--ink); color:white; font:700 14px Arial, sans-serif}
     .map-badge.ceremony{left:5.2%; top:10.6%;}
     .map-badge.reception{left:28.8%; top:68.8%;}
     .map-badge.scarborough{left:2.2%; top:24.6%;}
@@ -884,7 +883,7 @@
       .event-grid > .event-photo,
       .event-grid > .event-photo-stack{order:2}
       .map-grid .map-side{order:1}
-      .map-grid .map-frame{order:2}
+      .map-grid .map-panel{order:2}
       .nav-inner{min-height:68px}
       .nav-links a:not(.pill){display:none}
       .row{grid-template-columns:1fr}
@@ -895,7 +894,6 @@
       .rehearsal-composite img,
       .rehearsal-main-photo img{height:auto}
       .rsvp-photo img{height:400px}
-      .map-badge{transform:scale(.78); transform-origin:left top;}
       .envelope-reveal-inner{width:calc(100% - 22px)}
       .envelope-letter{width:92%}
       .envelope-seal{width:72px}
@@ -1003,12 +1001,20 @@
         <h2 class="section-title">Map & Recommendations</h2>
 
         <div class="map-grid">
+          <div class="map-panel">
           <div class="map-frame">
             <img src="assets/map.png" alt="Map showing the ceremony, reception, Scarborough and Cottesloe">
-            <div class="map-badge ceremony"><span class="dot"></span>Immaculate Heart of Mary</div>
-            <div class="map-badge reception"><span class="dot"></span>Matilda Bay</div>
-            <div class="map-badge scarborough"><span class="dot"></span>Scarborough</div>
-            <div class="map-badge cottesloe"><span class="dot"></span>Cottesloe</div>
+            <div class="map-badge ceremony" aria-hidden="true">1</div>
+            <div class="map-badge reception" aria-hidden="true">2</div>
+            <div class="map-badge scarborough" aria-hidden="true">3</div>
+            <div class="map-badge cottesloe" aria-hidden="true">4</div>
+          </div>
+          <ol class="map-key" aria-label="Map locations">
+            <li><span class="map-key-number">1</span> Immaculate Heart of Mary — Ceremony</li>
+            <li><span class="map-key-number">2</span> Matilda Bay — Reception</li>
+            <li><span class="map-key-number">3</span> Scarborough</li>
+            <li><span class="map-key-number">4</span> Cottesloe</li>
+          </ol>
           </div>
 
           <div class="map-side">
