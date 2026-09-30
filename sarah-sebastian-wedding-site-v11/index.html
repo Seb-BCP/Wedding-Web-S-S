@@ -625,7 +625,9 @@
       color:white;
       border:2px solid white;
       box-shadow:0 2px 6px rgba(0,0,0,.25);
-      border-radius:50%;
+      border-radius:50% 50% 50% 0;
+      transform:rotate(-45deg);
+      pointer-events:none;
       font-family:Arial, sans-serif;
       font-size:14px;
       font-weight:700;
@@ -634,13 +636,19 @@
       line-height:1;
     }
     .map-panel{min-width:0}
+    .map-badge span{transform:rotate(45deg)}
+    .map-rating-link{position:absolute; z-index:2; border-radius:999px; display:block}
+    .map-rating-link:hover{background:rgba(179,38,30,.12); outline:2px solid #b3261e}
+    .map-rating-link:focus-visible{outline:3px solid #b3261e; outline-offset:3px}
+    .map-rating-link.ceremony-rating{left:9.8%; top:8.5%; width:8%; height:5.4%}
+    .map-rating-link.reception-rating{left:33.1%; top:69.2%; width:5.8%; height:5.4%}
     .map-key{list-style:none; padding:18px 0 0; margin:0; display:grid; gap:12px; font-size:.85rem}
     .map-key li{display:flex; align-items:center; gap:10px}
     .map-key-number{width:26px; height:26px; flex:0 0 26px; display:grid; place-items:center; border-radius:50%; background:var(--ink); color:white; font:700 14px Arial, sans-serif}
-    .map-badge.ceremony{left:5.2%; top:10.6%;}
-    .map-badge.reception{left:28.8%; top:68.8%;}
-    .map-badge.scarborough{left:2.2%; top:24.6%;}
-    .map-badge.cottesloe{left:1.6%; top:82.8%;}
+    .map-badge.ceremony{left:5.2%; top:5%;}
+    .map-badge.reception{left:28.8%; top:66%;}
+    .map-badge.scarborough{left:9%; top:19.5%;}
+    .map-badge.cottesloe{left:10.5%; top:72%;}
 
     .map-side{
       display:grid;
@@ -1004,14 +1012,16 @@
           <div class="map-panel">
           <div class="map-frame">
             <img src="assets/map.png" alt="Map showing the ceremony, reception, Scarborough and Cottesloe">
-            <div class="map-badge ceremony" aria-hidden="true">1</div>
-            <div class="map-badge reception" aria-hidden="true">2</div>
-            <div class="map-badge scarborough" aria-hidden="true">3</div>
-            <div class="map-badge cottesloe" aria-hidden="true">4</div>
+            <div class="map-badge ceremony" aria-hidden="true"><span>1</span></div>
+            <div class="map-badge reception" aria-hidden="true"><span>2</span></div>
+            <div class="map-badge scarborough" aria-hidden="true"><span>3</span></div>
+            <div class="map-badge cottesloe" aria-hidden="true"><span>4</span></div>
+            <a class="map-rating-link ceremony-rating" href="https://www.google.com/maps/search/?api=1&amp;query=Immaculate+Heart+of+Mary+104+Scarborough+Beach+Rd+Scarborough+WA" target="_blank" rel="noopener noreferrer" aria-label="Open Immaculate Heart of Mary in Google Maps (new tab)" title="Open Immaculate Heart of Mary in Google Maps"></a>
+            <a class="map-rating-link reception-rating" href="https://www.google.com/maps/search/?api=1&amp;query=Matilda+Bay+Restaurant+3+Hackett+Drive+Crawley+WA" target="_blank" rel="noopener noreferrer" aria-label="Open Matilda Bay Restaurant in Google Maps (new tab)" title="Open Matilda Bay Restaurant in Google Maps"></a>
           </div>
           <ol class="map-key" aria-label="Map locations">
-            <li><span class="map-key-number">1</span> Immaculate Heart of Mary — Ceremony</li>
-            <li><span class="map-key-number">2</span> Matilda Bay — Reception</li>
+            <li><span class="map-key-number">1</span> Immaculate Heart of Mary Parish - Ceremony</li>
+            <li><span class="map-key-number">2</span> Matilda Bay Restaurant - Reception</li>
             <li><span class="map-key-number">3</span> Scarborough</li>
             <li><span class="map-key-number">4</span> Cottesloe</li>
           </ol>
