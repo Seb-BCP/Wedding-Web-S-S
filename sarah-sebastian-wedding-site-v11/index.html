@@ -606,6 +606,7 @@
       margin-top:36px;
     }
     .map-frame{
+      container-type:inline-size;
       background:white;
       border:1px solid var(--line);
       box-shadow:var(--shadow);
@@ -619,17 +620,17 @@
     }
     .map-badge{
       position:absolute;
-      width:28px;
-      height:28px;
+      width:min(28px, 4.5cqw);
+      height:min(28px, 4.5cqw);
       background:var(--ink);
       color:white;
-      border:2px solid white;
+      border:min(2px, .32cqw) solid white;
       box-shadow:0 2px 6px rgba(0,0,0,.25);
       border-radius:50% 50% 50% 0;
       transform:rotate(-45deg);
       pointer-events:none;
       font-family:Arial, sans-serif;
-      font-size:14px;
+      font-size:min(14px, 2.5cqw);
       font-weight:700;
       display:grid;
       place-items:center;
